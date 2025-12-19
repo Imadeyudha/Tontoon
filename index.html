@@ -1,0 +1,2044 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#2E073F">
+    <meta name="description" content="Platform streaming film action premium dengan rekomendasi cerdas">
+    <title>Tontoon - Action Movie Streaming</title>
+    
+    <!-- Bootstrap 5 -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+    
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #2E073F;
+            --secondary: #7A1CAC;
+            --accent: #AD49E1;
+            --light: #EBD3F8;
+            --dark: #0f0f0f;
+            --card-bg: #1a1a1a;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, var(--primary) 0%, #1a0b2e 100%);
+            color: white;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Poppins', sans-serif;
+        }
+
+        /* Navbar */
+        .navbar-custom {
+            background: linear-gradient(90deg, var(--primary) 0%, var(--secondary) 100%);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 4px 20px rgba(122, 28, 172, 0.3);
+        }
+
+        .navbar-brand {
+            font-family: 'Poppins', sans-serif;
+            font-weight: 700;
+            font-size: 1.8rem;
+            background: linear-gradient(45deg, var(--light), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        /* Search Bar */
+        .search-container {
+            position: relative;
+            max-width: 500px;
+        }
+
+        .search-input {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid var(--accent);
+            border-radius: 50px;
+            color: white;
+            padding: 10px 45px 10px 20px;
+            transition: all 0.3s;
+        }
+
+        .search-input:focus {
+            background: rgba(255, 255, 255, 0.15);
+            border-color: var(--light);
+            box-shadow: 0 0 20px rgba(173, 73, 225, 0.4);
+            outline: none;
+        }
+
+        .search-input::placeholder {
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        /* Hero Section */
+        .hero-section {
+            padding: 100px 0 50px;
+            text-align: center;
+        }
+
+        .hero-title {
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            background: linear-gradient(45deg, var(--light), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        /* Category Section */
+        .category-section {
+            margin: 40px 0;
+        }
+
+        .category-title {
+            font-size: 1.8rem;
+            font-weight: 600;
+            margin-bottom: 20px;
+            color: var(--light);
+        }
+
+        /* Movie Carousel */
+        .movie-carousel {
+            display: flex;
+            gap: 20px;
+            overflow-x: auto;
+            scroll-behavior: smooth;
+            padding: 20px 0;
+            scrollbar-width: thin;
+            scrollbar-color: var(--accent) transparent;
+        }
+
+        .movie-carousel::-webkit-scrollbar {
+            height: 8px;
+        }
+
+        .movie-carousel::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+        }
+
+        .movie-carousel::-webkit-scrollbar-thumb {
+            background: var(--accent);
+            border-radius: 10px;
+        }
+
+        /* Movie Card */
+        .movie-card {
+            min-width: 200px;
+            width: 200px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .movie-card:hover {
+            transform: scale(1.05);
+            filter: brightness(1.2);
+        }
+
+        .movie-poster {
+            width: 100%;
+            height: 300px;
+            object-fit: cover;
+            border-radius: 10px;
+            box-shadow: 0 8px 25px rgba(173, 73, 225, 0.4);
+        }
+
+        .movie-info {
+            padding: 10px 0;
+        }
+
+        .movie-title {
+            font-weight: 600;
+            font-size: 1rem;
+            margin-bottom: 5px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .movie-rating {
+            color: var(--accent);
+            font-size: 0.9rem;
+        }
+
+        .bookmark-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: rgba(0, 0, 0, 0.7);
+            border: none;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            z-index: 10;
+        }
+
+        .bookmark-btn:hover {
+            background: var(--accent);
+            transform: scale(1.1);
+        }
+
+        .bookmark-btn.active {
+            background: #e50914;
+        }
+
+        /* Modal */
+        .modal-content {
+            background: linear-gradient(135deg, var(--primary) 0%, #1a0b2e 100%);
+            border: 1px solid var(--accent);
+            border-radius: 20px;
+            color: white;
+        }
+
+        .modal-header {
+            border-bottom: 1px solid var(--accent);
+        }
+
+        .modal-body {
+            padding: 30px;
+        }
+
+        .movie-detail-poster {
+            width: 100%;
+            border-radius: 15px;
+            box-shadow: 0 10px 40px rgba(173, 73, 225, 0.5);
+        }
+
+        /* Buttons */
+        .btn-primary-custom {
+            background: linear-gradient(45deg, var(--secondary), var(--accent));
+            border: none;
+            border-radius: 50px;
+            padding: 12px 30px;
+            font-weight: 600;
+            transition: all 0.3s;
+            box-shadow: 0 5px 15px rgba(173, 73, 225, 0.4);
+        }
+
+        .btn-primary-custom:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(173, 73, 225, 0.6);
+        }
+
+        /* Premium Badge */
+        .premium-badge {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background: linear-gradient(45deg, #FFD700, #FFA500);
+            color: black;
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-size: 0.7rem;
+            font-weight: 700;
+            z-index: 10;
+        }
+
+        /* Toast */
+        .toast-container {
+            position: fixed;
+            top: 80px;
+            right: 20px;
+            z-index: 9999;
+        }
+
+        .custom-toast {
+            background: linear-gradient(135deg, var(--secondary), var(--accent));
+            color: white;
+            border: none;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(173, 73, 225, 0.5);
+        }
+
+        /* Loading Skeleton */
+        .skeleton {
+            background: linear-gradient(90deg, #2a2a2a 25%, #3a3a3a 50%, #2a2a2a 75%);
+            background-size: 200% 100%;
+            animation: loading 1.5s infinite;
+            border-radius: 10px;
+        }
+
+        @keyframes loading {
+            0% { background-position: 200% 0; }
+            100% { background-position: -200% 0; }
+        }
+
+        .skeleton-card {
+            min-width: 200px;
+            width: 200px;
+            height: 300px;
+        }
+
+        /* Bottom Navigation (Mobile) */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(90deg, var(--primary) 0%, var(--secondary) 100%);
+            padding: 10px 0;
+            display: none;
+            justify-content: space-around;
+            box-shadow: 0 -4px 20px rgba(122, 28, 172, 0.3);
+            z-index: 1000;
+        }
+
+        .bottom-nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            color: rgba(255, 255, 255, 0.7);
+            text-decoration: none;
+            font-size: 0.75rem;
+            transition: all 0.3s;
+        }
+
+        .bottom-nav-item.active,
+        .bottom-nav-item:hover {
+            color: var(--light);
+        }
+
+        /* Subscription Cards */
+        .subscription-card {
+            background: rgba(122, 28, 172, 0.2);
+            border: 2px solid var(--accent);
+            border-radius: 20px;
+            padding: 30px;
+            text-align: center;
+            transition: all 0.3s;
+            height: 100%;
+        }
+
+        .subscription-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 40px rgba(173, 73, 225, 0.5);
+            border-color: var(--light);
+        }
+
+        .subscription-card.featured {
+            background: linear-gradient(135deg, var(--secondary), var(--accent));
+            border-color: #FFD700;
+        }
+
+        .price {
+            font-size: 3rem;
+            font-weight: 700;
+            color: var(--light);
+        }
+
+        /* Responsive */
+        @media (max-width: 767px) {
+            .hero-title {
+                font-size: 2rem;
+            }
+
+            .bottom-nav {
+                display: flex;
+            }
+
+            body {
+                padding-bottom: 70px;
+            }
+
+            .movie-card {
+                min-width: 150px;
+                width: 150px;
+            }
+
+            .movie-poster {
+                height: 225px;
+            }
+        }
+
+        @media (min-width: 768px) and (max-width: 1024px) {
+            .movie-card {
+                min-width: 180px;
+                width: 180px;
+            }
+        }
+
+        /* Stars */
+        .stars {
+            display: inline-flex;
+            gap: 2px;
+        }
+
+        .star {
+            color: #FFD700;
+        }
+
+        /* Filter Section */
+        .filter-section {
+            background: rgba(122, 28, 172, 0.2);
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 30px;
+        }
+
+        .filter-btn {
+            background: rgba(173, 73, 225, 0.3);
+            border: 1px solid var(--accent);
+            color: white;
+            border-radius: 20px;
+            padding: 8px 20px;
+            margin: 5px;
+            transition: all 0.3s;
+        }
+
+        .filter-btn:hover,
+        .filter-btn.active {
+            background: var(--accent);
+            transform: scale(1.05);
+        }
+
+        .filter-select {
+            background: rgba(173, 73, 225, 0.2);
+            border: 1px solid var(--accent);
+            color: white;
+            border-radius: 10px;
+            padding: 10px;
+            transition: all 0.3s;
+        }
+
+        .filter-select:focus {
+            background: rgba(173, 73, 225, 0.3);
+            border-color: var(--light);
+            color: white;
+            box-shadow: 0 0 15px rgba(173, 73, 225, 0.4);
+        }
+
+        .filter-select option {
+            background: var(--primary);
+            color: white;
+        }
+
+        /* Payment Method Button */
+        .payment-method-btn {
+            background: rgba(173, 73, 225, 0.2);
+            border: 1px solid var(--accent);
+            color: white;
+            border-radius: 15px;
+            padding: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.3s;
+            text-align: left;
+        }
+
+        .payment-method-btn:hover {
+            background: rgba(173, 73, 225, 0.4);
+            transform: translateX(5px);
+            border-color: var(--light);
+        }
+
+        .payment-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+
+        .payment-method-group {
+            padding-bottom: 20px;
+            border-bottom: 1px solid rgba(173, 73, 225, 0.3);
+        }
+
+        .payment-method-group:last-child {
+            border-bottom: none;
+        }
+
+        .form-control {
+            background: rgba(173, 73, 225, 0.2);
+            border: 1px solid var(--accent);
+            color: white;
+            border-radius: 10px;
+        }
+
+        .form-control:focus {
+            background: rgba(173, 73, 225, 0.3);
+            border-color: var(--light);
+            color: white;
+            box-shadow: 0 0 15px rgba(173, 73, 225, 0.4);
+        }
+
+        .form-control::placeholder {
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        .form-label {
+            color: var(--light);
+            font-weight: 500;
+            margin-bottom: 8px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark navbar-custom fixed-top">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">
+                <i data-lucide="film" style="margin-right: 10px;"></i>Tontoon
+            </a>
+            
+            <div class="d-none d-lg-flex search-container mx-auto">
+                <input type="text" class="form-control search-input" id="searchInput" placeholder="Cari film action...">
+                <i data-lucide="search" style="position: absolute; right: 15px; top: 50%; transform: translateY(-50%);"></i>
+            </div>
+
+            <div class="d-flex align-items-center gap-3">
+                <button class="btn btn-link text-white" id="subscriptionBtn">
+                    <i data-lucide="crown"></i>
+                    <span class="d-none d-lg-inline ms-2">Premium</span>
+                </button>
+                <button class="btn btn-link text-white" id="watchlistBtn">
+                    <i data-lucide="bookmark"></i>
+                    <span class="d-none d-lg-inline ms-2">Watchlist</span>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="container-fluid" style="padding-top: 80px;">
+        <!-- Hero Section -->
+        <div class="hero-section">
+            <h1 class="hero-title">Action Movies Paradise</h1>
+            <p class="lead">Ribuan film action terbaik, streaming unlimited</p>
+        </div>
+
+        <!-- Mobile Search -->
+        <div class="d-lg-none mb-4">
+            <div class="search-container mx-auto" style="max-width: 100%;">
+                <input type="text" class="form-control search-input" placeholder="Cari film action...">
+                <i data-lucide="search" style="position: absolute; right: 15px; top: 50%; transform: translateY(-50%);"></i>
+            </div>
+        </div>
+
+        <!-- Filter Section -->
+        <div class="filter-section">
+            <h5 class="mb-3">
+                <i data-lucide="filter" width="20" height="20"></i> Filter Film
+            </h5>
+            <div class="row g-3">
+                <div class="col-md-3 col-6">
+                    <label class="text-muted mb-2">Kategori</label>
+                    <select class="form-select filter-select" id="categoryFilter">
+                        <option value="all">Semua Kategori</option>
+                        <option value="trending">🔥 Trending</option>
+                        <option value="toprated">⭐ Top Rated</option>
+                        <option value="new">🆕 Film Baru</option>
+                        <option value="classic">🎬 Klasik</option>
+                    </select>
+                </div>
+                <div class="col-md-3 col-6">
+                    <label class="text-muted mb-2">Tahun</label>
+                    <select class="form-select filter-select" id="yearFilter">
+                        <option value="all">Semua Tahun</option>
+                        <option value="2024">2024</option>
+                        <option value="2023">2023</option>
+                        <option value="2020s">2020-2022</option>
+                        <option value="2010s">2010-2019</option>
+                        <option value="2000s">2000-2009</option>
+                        <option value="classic">1980-1999</option>
+                    </select>
+                </div>
+                <div class="col-md-3 col-6">
+                    <label class="text-muted mb-2">Rating</label>
+                    <select class="form-select filter-select" id="ratingFilter">
+                        <option value="all">Semua Rating</option>
+                        <option value="5">⭐ 5.0</option>
+                        <option value="4.5">⭐ 4.5+</option>
+                        <option value="4">⭐ 4.0+</option>
+                        <option value="3.5">⭐ 3.5+</option>
+                    </select>
+                </div>
+                <div class="col-md-3 col-6">
+                    <label class="text-muted mb-2">Harga</label>
+                    <select class="form-select filter-select" id="priceFilter">
+                        <option value="all">Semua</option>
+                        <option value="free">Gratis</option>
+                        <option value="premium">Premium Subs</option>
+                        <option value="ppv">Bayar Per Film</option>
+                    </select>
+                </div>
+            </div>
+            <div class="mt-3 d-flex gap-2">
+                <button class="btn btn-sm btn-outline-light" id="resetFilter">
+                    <i data-lucide="x" width="16" height="16"></i> Reset Filter
+                </button>
+                <button class="btn btn-sm btn-primary-custom" id="applyFilter">
+                    <i data-lucide="check" width="16" height="16"></i> Terapkan Filter
+                </button>
+            </div>
+        </div>
+
+        <!-- Trending Section -->
+        <div class="category-section">
+            <h2 class="category-title">🔥 Trending Sekarang</h2>
+            <div class="movie-carousel" id="trendingCarousel">
+                <!-- Loading skeletons -->
+                <div class="skeleton skeleton-card"></div>
+                <div class="skeleton skeleton-card"></div>
+                <div class="skeleton skeleton-card"></div>
+                <div class="skeleton skeleton-card"></div>
+            </div>
+        </div>
+
+        <!-- Top Rated Section -->
+        <div class="category-section">
+            <h2 class="category-title">⭐ Top Rated</h2>
+            <div class="movie-carousel" id="topRatedCarousel">
+                <div class="skeleton skeleton-card"></div>
+                <div class="skeleton skeleton-card"></div>
+                <div class="skeleton skeleton-card"></div>
+                <div class="skeleton skeleton-card"></div>
+            </div>
+        </div>
+
+        <!-- New Releases Section -->
+        <div class="category-section">
+            <h2 class="category-title">🆕 Film Terbaru</h2>
+            <div class="movie-carousel" id="newReleasesCarousel">
+                <div class="skeleton skeleton-card"></div>
+                <div class="skeleton skeleton-card"></div>
+                <div class="skeleton skeleton-card"></div>
+                <div class="skeleton skeleton-card"></div>
+            </div>
+        </div>
+
+        <!-- Classic Action Section -->
+        <div class="category-section">
+            <h2 class="category-title">🎬 Action Klasik</h2>
+            <div class="movie-carousel" id="classicCarousel">
+                <div class="skeleton skeleton-card"></div>
+                <div class="skeleton skeleton-card"></div>
+                <div class="skeleton skeleton-card"></div>
+                <div class="skeleton skeleton-card"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bottom Navigation (Mobile) -->
+    <div class="bottom-nav">
+        <a href="#" class="bottom-nav-item active">
+            <i data-lucide="home" width="24" height="24"></i>
+            <span>Home</span>
+        </a>
+        <a href="#" class="bottom-nav-item" id="mobileSearch">
+            <i data-lucide="search" width="24" height="24"></i>
+            <span>Cari</span>
+        </a>
+        <a href="#" class="bottom-nav-item" id="mobileWatchlist">
+            <i data-lucide="bookmark" width="24" height="24"></i>
+            <span>Watchlist</span>
+        </a>
+        <a href="#" class="bottom-nav-item" id="mobilePremium">
+            <i data-lucide="crown" width="24" height="24"></i>
+            <span>Premium</span>
+        </a>
+    </div>
+
+    <!-- Movie Detail Modal -->
+    <div class="modal fade" id="movieModal" tabindex="-1">
+        <div class="modal-dialog modal-lg modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalTitle"></h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <img id="modalPoster" class="movie-detail-poster" alt="">
+                        </div>
+                        <div class="col-md-8">
+                            <div id="modalRating" class="mb-3"></div>
+                            <p id="modalYear" class="text-muted"></p>
+                            <p id="modalDuration" class="text-muted"></p>
+                            <p id="modalDescription"></p>
+                            <div class="d-flex gap-2 mt-4">
+                                <button class="btn btn-primary-custom flex-grow-1" id="watchNowBtn">
+                                    <i data-lucide="play" width="20" height="20"></i> Tonton Sekarang
+                                </button>
+                                <button class="btn btn-outline-light" id="modalBookmarkBtn">
+                                    <i data-lucide="bookmark" width="20" height="20"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Subscription Modal -->
+    <div class="modal fade" id="subscriptionModal" tabindex="-1">
+        <div class="modal-dialog modal-xl modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">🎬 Upgrade ke Premium</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row g-4">
+                        <div class="col-md-4">
+                            <div class="subscription-card">
+                                <h3>Free</h3>
+                                <div class="price">Rp 0</div>
+                                <p class="text-muted">/ bulan</p>
+                                <hr style="border-color: var(--accent);">
+                                <ul class="text-start" style="list-style: none; padding: 0;">
+                                    <li>✓ Tonton dengan iklan</li>
+                                    <li>✓ Akses terbatas</li>
+                                    <li>✗ Kualitas SD</li>
+                                    <li>✗ Download offline</li>
+                                </ul>
+                                <button class="btn btn-outline-light mt-3 w-100" disabled>Paket Aktif</button>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="subscription-card featured">
+                                <span class="premium-badge">TERPOPULER</span>
+                                <h3>Premium Monthly</h3>
+                                <div class="price">Rp 49K</div>
+                                <p class="text-muted">/ bulan</p>
+                                <hr style="border-color: #FFD700;">
+                                <ul class="text-start" style="list-style: none; padding: 0;">
+                                    <li>✓ Tanpa iklan</li>
+                                    <li>✓ Akses unlimited</li>
+                                    <li>✓ Kualitas Full HD</li>
+                                    <li>✓ Download offline</li>
+                                </ul>
+                                <button class="btn btn-light mt-3 w-100" onclick="upgradePremium('monthly')">
+                                    <strong>Berlangganan</strong>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="subscription-card">
+                                <h3>Premium Yearly</h3>
+                                <div class="price">Rp 499K</div>
+                                <p class="text-muted">/ tahun</p>
+                                <small class="text-success">Hemat 15%</small>
+                                <hr style="border-color: var(--accent);">
+                                <ul class="text-start" style="list-style: none; padding: 0;">
+                                    <li>✓ Tanpa iklan</li>
+                                    <li>✓ Akses unlimited</li>
+                                    <li>✓ Kualitas 4K Ultra HD</li>
+                                    <li>✓ Download offline</li>
+                                </ul>
+                                <button class="btn btn-outline-light mt-3 w-100" onclick="upgradePremium('yearly')">Berlangganan</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Paywall Modal -->
+    <div class="modal fade" id="paywallModal" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">🔒 Konten Premium</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body text-center">
+                    <i data-lucide="lock" width="80" height="80" style="color: var(--accent); margin: 20px 0;"></i>
+                    <h4>Upgrade ke Premium untuk menonton</h4>
+                    <p class="text-muted">Dapatkan akses unlimited ke semua film action tanpa iklan</p>
+                    <button class="btn btn-primary-custom w-100 mt-3" onclick="showSubscription()">
+                        <i data-lucide="crown"></i> Lihat Paket Premium
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Pay Per View Modal - Step 1: Movie Info -->
+    <div class="modal fade" id="ppvModal" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">🎬 Sewa Film</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="text-center">
+                        <img id="ppvPoster" style="width: 150px; height: 225px; object-fit: cover; border-radius: 15px; margin-bottom: 15px;" alt="">
+                        <h4 id="ppvTitle"></h4>
+                    </div>
+                    
+                    <div class="mt-4 p-3" style="background: rgba(173, 73, 225, 0.2); border-radius: 15px;">
+                        <div class="d-flex justify-content-between mb-2">
+                            <span>Harga Sewa</span>
+                            <strong id="ppvPrice"></strong>
+                        </div>
+                        <div class="d-flex justify-content-between mb-2">
+                            <span>Biaya Admin</span>
+                            <strong>Rp 1.000</strong>
+                        </div>
+                        <hr style="border-color: var(--accent);">
+                        <div class="d-flex justify-content-between">
+                            <strong>Total Pembayaran</strong>
+                            <strong id="ppvTotalPrice" style="color: var(--accent); font-size: 1.3rem;"></strong>
+                        </div>
+                    </div>
+
+                    <div class="mt-3">
+                        <small class="text-muted">
+                            <i data-lucide="info" width="14" height="14"></i> Akses 48 jam | Full HD 1080p
+                        </small>
+                    </div>
+
+                    <button class="btn btn-primary-custom w-100 mt-4" onclick="showPaymentMethod()">
+                        Lanjutkan Pembayaran
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Payment Method Modal - Step 2 -->
+    <div class="modal fade" id="paymentMethodModal" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button class="btn btn-link text-white p-0" onclick="backToPPV()">
+                        <i data-lucide="arrow-left" width="20" height="20"></i>
+                    </button>
+                    <h5 class="modal-title ms-3">💳 Pilih Metode Pembayaran</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="payment-method-group mb-4">
+                        <h6 class="mb-3">E-Wallet</h6>
+                        <div class="d-grid gap-2">
+                            <button class="payment-method-btn" onclick="selectPaymentMethod('gopay')">
+                                <div class="d-flex align-items-center">
+                                    <div class="payment-icon" style="background: #00AA13;">
+                                        <strong style="color: white;">Go</strong>
+                                    </div>
+                                    <div class="ms-3 text-start">
+                                        <strong>GoPay</strong>
+                                        <br>
+                                        <small class="text-muted">Bayar pakai GoPay</small>
+                                    </div>
+                                </div>
+                                <i data-lucide="chevron-right" width="20" height="20"></i>
+                            </button>
+                            <button class="payment-method-btn" onclick="selectPaymentMethod('ovo')">
+                                <div class="d-flex align-items-center">
+                                    <div class="payment-icon" style="background: #4B2D83;">
+                                        <strong style="color: white;">O</strong>
+                                    </div>
+                                    <div class="ms-3 text-start">
+                                        <strong>OVO</strong>
+                                        <br>
+                                        <small class="text-muted">Bayar pakai OVO</small>
+                                    </div>
+                                </div>
+                                <i data-lucide="chevron-right" width="20" height="20"></i>
+                            </button>
+                            <button class="payment-method-btn" onclick="selectPaymentMethod('dana')">
+                                <div class="d-flex align-items-center">
+                                    <div class="payment-icon" style="background: #118EEA;">
+                                        <strong style="color: white;">D</strong>
+                                    </div>
+                                    <div class="ms-3 text-start">
+                                        <strong>DANA</strong>
+                                        <br>
+                                        <small class="text-muted">Bayar pakai DANA</small>
+                                    </div>
+                                </div>
+                                <i data-lucide="chevron-right" width="20" height="20"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="payment-method-group mb-4">
+                        <h6 class="mb-3">Transfer Bank</h6>
+                        <div class="d-grid gap-2">
+                            <button class="payment-method-btn" onclick="selectPaymentMethod('bca')">
+                                <div class="d-flex align-items-center">
+                                    <div class="payment-icon" style="background: #0066AE;">
+                                        <strong style="color: white;">BCA</strong>
+                                    </div>
+                                    <div class="ms-3 text-start">
+                                        <strong>BCA Virtual Account</strong>
+                                        <br>
+                                        <small class="text-muted">Transfer ke VA BCA</small>
+                                    </div>
+                                </div>
+                                <i data-lucide="chevron-right" width="20" height="20"></i>
+                            </button>
+                            <button class="payment-method-btn" onclick="selectPaymentMethod('mandiri')">
+                                <div class="d-flex align-items-center">
+                                    <div class="payment-icon" style="background: #003D79;">
+                                        <strong style="color: white; font-size: 0.7rem;">MND</strong>
+                                    </div>
+                                    <div class="ms-3 text-start">
+                                        <strong>Mandiri Virtual Account</strong>
+                                        <br>
+                                        <small class="text-muted">Transfer ke VA Mandiri</small>
+                                    </div>
+                                </div>
+                                <i data-lucide="chevron-right" width="20" height="20"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="payment-method-group">
+                        <h6 class="mb-3">Kartu Kredit/Debit</h6>
+                        <div class="d-grid gap-2">
+                            <button class="payment-method-btn" onclick="selectPaymentMethod('cc')">
+                                <div class="d-flex align-items-center">
+                                    <div class="payment-icon" style="background: linear-gradient(135deg, #FFD700, #FFA500);">
+                                        <i data-lucide="credit-card" width="20" height="20" style="color: white;"></i>
+                                    </div>
+                                    <div class="ms-3 text-start">
+                                        <strong>Credit/Debit Card</strong>
+                                        <br>
+                                        <small class="text-muted">Visa, Mastercard, JCB</small>
+                                    </div>
+                                </div>
+                                <i data-lucide="chevron-right" width="20" height="20"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Payment Confirmation Modal - Step 3 -->
+    <div class="modal fade" id="paymentConfirmModal" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button class="btn btn-link text-white p-0" onclick="backToPaymentMethod()">
+                        <i data-lucide="arrow-left" width="20" height="20"></i>
+                    </button>
+                    <h5 class="modal-title ms-3" id="confirmPaymentTitle">Konfirmasi Pembayaran</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="text-center mb-4">
+                        <div id="paymentMethodIcon" class="mx-auto mb-3" style="width: 80px; height: 80px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 2rem; font-weight: bold;"></div>
+                        <h5 id="paymentMethodName"></h5>
+                    </div>
+
+                    <!-- E-Wallet Instructions -->
+                    <div id="ewalletInstructions" style="display: none;">
+                        <div class="alert" style="background: rgba(173, 73, 225, 0.2); border: 1px solid var(--accent);">
+                            <h6>📱 Cara Pembayaran:</h6>
+                            <ol class="mb-0" style="padding-left: 20px;">
+                                <li>Buka aplikasi <strong id="ewalletName"></strong></li>
+                                <li>Scan QR Code atau masukkan nomor HP</li>
+                                <li>Konfirmasi pembayaran</li>
+                                <li>Selesai! Film siap ditonton</li>
+                            </ol>
+                        </div>
+                    </div>
+
+                    <!-- VA Instructions -->
+                    <div id="vaInstructions" style="display: none;">
+                        <div class="alert" style="background: rgba(173, 73, 225, 0.2); border: 1px solid var(--accent);">
+                            <h6>🏦 Nomor Virtual Account:</h6>
+                            <div class="d-flex justify-content-between align-items-center p-3 mt-2" style="background: rgba(0,0,0,0.3); border-radius: 10px;">
+                                <code id="vaNumber" style="font-size: 1.2rem; color: var(--light);"></code>
+                                <button class="btn btn-sm btn-outline-light" onclick="copyVA()">
+                                    <i data-lucide="copy" width="16" height="16"></i> Copy
+                                </button>
+                            </div>
+                        </div>
+                        <div class="alert alert-info" style="background: rgba(0, 217, 255, 0.2); border: 1px solid #00D9FF;">
+                            <small>
+                                <i data-lucide="info" width="14" height="14"></i> Transfer sesuai nominal total pembayaran. VA berlaku 24 jam.
+                            </small>
+                        </div>
+                    </div>
+
+                    <!-- Card Form -->
+                    <div id="cardForm" style="display: none;">
+                        <div class="mb-3">
+                            <label class="form-label">Nomor Kartu</label>
+                            <input type="text" class="form-control" id="cardNumber" placeholder="1234 5678 9012 3456" maxlength="19">
+                        </div>
+                        <div class="row">
+                            <div class="col-6 mb-3">
+                                <label class="form-label">Expired</label>
+                                <input type="text" class="form-control" id="cardExpiry" placeholder="MM/YY" maxlength="5">
+                            </div>
+                            <div class="col-6 mb-3">
+                                <label class="form-label">CVV</label>
+                                <input type="text" class="form-control" id="cardCVV" placeholder="123" maxlength="3">
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Nama Pemegang Kartu</label>
+                            <input type="text" class="form-control" id="cardName" placeholder="JOHN DOE">
+                        </div>
+                    </div>
+
+                    <div class="mt-4 p-3" style="background: rgba(173, 73, 225, 0.2); border-radius: 15px;">
+                        <div class="d-flex justify-content-between">
+                            <strong>Total Pembayaran</strong>
+                            <strong id="confirmTotalPrice" style="color: var(--accent); font-size: 1.3rem;"></strong>
+                        </div>
+                    </div>
+
+                    <button class="btn btn-primary-custom w-100 mt-4" id="confirmPaymentBtn" onclick="processPayment()">
+                        Bayar Sekarang
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Payment Processing Modal - Step 4 -->
+    <div class="modal fade" id="processingModal" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-body text-center py-5">
+                    <div class="spinner-border text-light mb-4" style="width: 4rem; height: 4rem;" role="status">
+                        <span class="visually-hidden">Loading...</span>
+                    </div>
+                    <h5>Memproses Pembayaran...</h5>
+                    <p class="text-muted">Mohon tunggu sebentar</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Payment Success Modal - Step 5 -->
+    <div class="modal fade" id="successModal" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-body text-center py-5">
+                    <div class="mb-4" style="width: 100px; height: 100px; margin: 0 auto; background: linear-gradient(135deg, #00D9FF, #0099FF); border-radius: 50%; display: flex; align-items: center; justify-content: center;">
+                        <i data-lucide="check" width="50" height="50" style="color: white;"></i>
+                    </div>
+                    <h4 class="mb-3">Pembayaran Berhasil!</h4>
+                    <p class="text-muted">Film <strong id="successMovieTitle"></strong> sudah bisa ditonton</p>
+                    
+                    <div class="mt-4 p-3" style="background: rgba(0, 217, 255, 0.2); border-radius: 15px;">
+                        <div class="d-flex justify-content-between mb-2">
+                            <span>Total Dibayar</span>
+                            <strong id="successAmount"></strong>
+                        </div>
+                        <div class="d-flex justify-content-between">
+                            <span>Metode</span>
+                            <strong id="successMethod"></strong>
+                        </div>
+                    </div>
+
+                    <button class="btn btn-primary-custom w-100 mt-4" onclick="watchMovieNow()">
+                        <i data-lucide="play" width="20" height="20"></i> Tonton Sekarang
+                    </button>
+                    <button class="btn btn-outline-light w-100 mt-2" data-bs-dismiss="modal">
+                        Nanti Saja
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Watchlist Modal -->
+    <div class="modal fade" id="watchlistModal" tabindex="-1">
+        <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">📌 Watchlist Saya</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row g-3" id="watchlistContent">
+                        <div class="col-12 text-center text-muted">
+                            <i data-lucide="bookmark" width="60" height="60" style="opacity: 0.3;"></i>
+                            <p class="mt-3">Watchlist kosong. Tambahkan film favorit Anda!</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Container -->
+    <div class="toast-container"></div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        // Movie Database
+        const moviesData = {
+            trending: [
+                {
+                    id: 1,
+                    title: "John Wick: Chapter 4",
+                    year: 2023,
+                    rating: 4.8,
+                    duration: "169 min",
+                    description: "Keanu Reeves kembali sebagai pembunuh bayaran legendaris yang berjuang melawan organisasi kriminal internasional. Visual memukau dengan koreografi action terbaik sepanjang masa.",
+                    poster: "assets/jonhwick.jpg",
+                    isPremium: true,
+                    isPPV: false,
+                    ppvPrice: 0
+                },
+                {
+                    id: 2,
+                    title: "The Raid: Redemption",
+                    year: 2011,
+                    rating: 4.7,
+                    duration: "101 min",
+                    description: "Film action Indonesia yang mendunia! Pasukan elit terjebak di gedung pencakar langit yang dikuasai gembong narkoba. Pencak silat meets brutal hand-to-hand combat.",
+                    poster: "https://images.unsplash.com/photo-1571847088289-dcf23c1b7d54?w=400&h=600&fit=crop",
+                    isPremium: false,
+                    isPPV: false,
+                    ppvPrice: 0
+                },
+                {
+                    id: 3,
+                    title: "Top Gun: Maverick",
+                    year: 2022,
+                    rating: 4.6,
+                    duration: "131 min",
+                    description: "Tom Cruise mengulangi peran ikoniknya sebagai pilot jet tempur. Spektakel udara yang memukau dengan cerita emosional yang kuat.",
+                    poster: "https://images.unsplash.com/photo-1583939003579-730e3918a45a?w=400&h=600&fit=crop",
+                    isPremium: false,
+                    isPPV: true,
+                    ppvPrice: 25000
+                },
+                {
+                    id: 4,
+                    title: "Extraction 2",
+                    year: 2023,
+                    rating: 4.4,
+                    duration: "122 min",
+                    description: "Chris Hemsworth dalam misi penyelamatan brutal dengan one-shot sequence terpanjang dalam sejarah film action. Pure adrenaline!",
+                    poster: "https://images.unsplash.com/photo-1594908900066-3f47337549d8?w=400&h=600&fit=crop",
+                    isPremium: true,
+                    isPPV: false,
+                    ppvPrice: 0
+                },
+                {
+                    id: 5,
+                    title: "The Beekeeper",
+                    year: 2024,
+                    rating: 4.3,
+                    duration: "105 min",
+                    description: "Jason Statham sebagai penjaga lebah yang ternyata agen rahasia. Ketika sistem yang korup menyakiti orang yang disayanginya, dia mengamuk!",
+                    poster: "https://images.unsplash.com/photo-1574267432644-f610f5c944ce?w=400&h=600&fit=crop",
+                    isPremium: false,
+                    isPPV: true,
+                    ppvPrice: 30000
+                }
+            ],
+            topRated: [
+                {
+                    id: 6,
+                    title: "The Dark Knight",
+                    year: 2008,
+                    rating: 5.0,
+                    duration: "152 min",
+                    description: "Heath Ledger sebagai Joker dalam performa Oscar-winning. Christopher Nolan mengangkat superhero movie ke level sinema berkelas.",
+                    poster: "https://images.unsplash.com/photo-1509347528160-9a9e33742cdb?w=400&h=600&fit=crop",
+                    isPremium: false,
+                    isPPV: false,
+                    ppvPrice: 0
+                },
+                {
+                    id: 7,
+                    title: "Mad Max: Fury Road",
+                    year: 2015,
+                    rating: 4.9,
+                    duration: "120 min",
+                    description: "Masterpiece post-apocalyptic action dengan Tom Hardy. Chase sequence 2 jam non-stop di gurun pasir dengan practical effects yang luar biasa.",
+                    poster: "https://images.unsplash.com/photo-1478720568477-152d9b164e26?w=400&h=600&fit=crop",
+                    isPremium: false,
+                    isPPV: true,
+                    ppvPrice: 20000
+                },
+                {
+                    id: 8,
+                    title: "Terminator 2: Judgment Day",
+                    year: 1991,
+                    rating: 4.9,
+                    duration: "137 min",
+                    description: "Arnold Schwarzenegger dalam sekuel legendaris dengan CGI revolutionary untuk zamannya. Time-travel action sci-fi terbaik.",
+                    poster: "https://images.unsplash.com/photo-1485846234645-a62644f84728?w=400&h=600&fit=crop",
+                    isPremium: false,
+                    isPPV: false,
+                    ppvPrice: 0
+                },
+                {
+                    id: 9,
+                    title: "Die Hard",
+                    year: 1988,
+                    rating: 4.8,
+                    duration: "132 min",
+                    description: "Bruce Willis sebagai John McClane, polisi yang terjebak dalam gedung pencakar langit yang disandera teroris. Blueprint dari action movie modern.",
+                    poster: "https://images.unsplash.com/photo-1440404653325-ab127d49abc1?w=400&h=600&fit=crop",
+                    isPremium: false,
+                    isPPV: false,
+                    ppvPrice: 0
+                }
+            ],
+            newReleases: [
+                {
+                    id: 10,
+                    title: "Monkey Man",
+                    year: 2024,
+                    rating: 4.5,
+                    duration: "121 min",
+                    description: "Dev Patel debut sebagai sutradara dalam action thriller India yang raw dan brutal tentang balas dendam dari underground fight club.",
+                    poster: "https://images.unsplash.com/photo-1533613220915-609f661a6fe1?w=400&h=600&fit=crop",
+                    isPremium: false,
+                    isPPV: true,
+                    ppvPrice: 35000
+                },
+                {
+                    id: 11,
+                    title: "The Equalizer 3",
+                    year: 2023,
+                    rating: 4.4,
+                    duration: "109 min",
+                    description: "Denzel Washington kembali sebagai mantan agen CIA yang menemukan kedamaian di Italia selatan, hingga mafia mengancam kota barunya.",
+                    poster: "https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?w=400&h=600&fit=crop",
+                    isPremium: true,
+                    isPPV: false,
+                    ppvPrice: 0
+                },
+                {
+                    id: 12,
+                    title: "Fast X",
+                    year: 2023,
+                    rating: 4.2,
+                    duration: "141 min",
+                    description: "Franchise Fast & Furious berlanjut dengan aksi spektakuler lintas benua. Jason Momoa sebagai villain yang menakutkan namun kharismatik.",
+                    poster: "https://images.unsplash.com/photo-1503376780353-7e6692767b70?w=400&h=600&fit=crop",
+                    isPremium: false,
+                    isPPV: true,
+                    ppvPrice: 28000
+                },
+                {
+                    id: 13,
+                    title: "Rebel Moon",
+                    year: 2023,
+                    rating: 4.1,
+                    duration: "134 min",
+                    description: "Zack Snyder menciptakan space opera epic dengan visual memukau. Pemberontakan melawan imperium galaksi yang korup.",
+                    poster: "https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=400&h=600&fit=crop",
+                    isPremium: true,
+                    isPPV: false,
+                    ppvPrice: 0
+                }
+            ],
+            classic: [
+                {
+                    id: 14,
+                    title: "The Matrix",
+                    year: 1999,
+                    rating: 4.9,
+                    duration: "136 min",
+                    description: "Revolutionary sci-fi action yang mengubah perfilman selamanya. Keanu Reeves sebagai hacker yang menemukan realitas sejati dunia.",
+                    poster: "https://images.unsplash.com/photo-1536440136628-849c177e76a1?w=400&h=600&fit=crop",
+                    isPremium: false,
+                    isPPV: false,
+                    ppvPrice: 0
+                },
+                {
+                    id: 15,
+                    title: "Lethal Weapon",
+                    year: 1987,
+                    rating: 4.6,
+                    duration: "110 min",
+                    description: "Buddy cop classic dengan Mel Gibson dan Danny Glover. Chemistry sempurna antara detektif gila dan detektif veteran.",
+                    poster: "https://images.unsplash.com/photo-1536440136628-849c177e76a1?w=400&h=600&fit=crop",
+                    isPremium: false,
+                    isPPV: false,
+                    ppvPrice: 0
+                },
+                {
+                    id: 16,
+                    title: "Predator",
+                    year: 1987,
+                    rating: 4.7,
+                    duration: "107 min",
+                    description: "Arnold Schwarzenegger vs alien pemburu di hutan Amazon. Sci-fi action thriller yang menegangkan dengan practical effects legendaris.",
+                    poster: "https://images.unsplash.com/photo-1534447677768-be436bb09401?w=400&h=600&fit=crop",
+                    isPremium: false,
+                    isPPV: true,
+                    ppvPrice: 15000
+                }
+            ]
+        };
+
+        // App State
+        let userSubscription = localStorage.getItem('subscription') || 'free';
+        let watchlist = JSON.parse(localStorage.getItem('watchlist') || '[]');
+        let purchasedMovies = JSON.parse(localStorage.getItem('purchased_movies') || '[]');
+        let currentMovie = null;
+        let selectedPaymentMethod = null;
+        let konamiCode = ['ArrowUp', 'ArrowUp', 'ArrowDown', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'ArrowLeft', 'ArrowRight', 'b', 'a'];
+        let konamiIndex = 0;
+        let premiumUnlocked = localStorage.getItem('konami_premium') === 'true';
+        let currentFilters = {
+            category: 'all',
+            year: 'all',
+            rating: 'all',
+            price: 'all'
+        };
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            lucide.createIcons();
+            setTimeout(() => {
+                renderMovies();
+                setupEventListeners();
+                setupKonamiCode();
+            }, 1000);
+        });
+
+        // Render Movies
+        function renderMovies() {
+            renderCarousel('trendingCarousel', moviesData.trending);
+            renderCarousel('topRatedCarousel', moviesData.topRated);
+            renderCarousel('newReleasesCarousel', moviesData.newReleases);
+            renderCarousel('classicCarousel', moviesData.classic);
+        }
+
+        function renderCarousel(carouselId, movies) {
+            const carousel = document.getElementById(carouselId);
+            carousel.innerHTML = '';
+            
+            movies.forEach(movie => {
+                const card = createMovieCard(movie);
+                carousel.appendChild(card);
+            });
+        }
+
+        function createMovieCard(movie) {
+            const card = document.createElement('div');
+            card.className = 'movie-card';
+            
+            let badge = '';
+            if (movie.isPPV && !purchasedMovies.includes(movie.id)) {
+                badge = `<div class="ppv-badge">Rp ${(movie.ppvPrice / 1000)}K</div>`;
+            } else if (movie.isPremium && !premiumUnlocked) {
+                badge = '<div class="premium-badge">PREMIUM</div>';
+            }
+            
+            card.innerHTML = `
+                ${badge}
+                <button class="bookmark-btn ${isBookmarked(movie.id) ? 'active' : ''}" onclick="toggleBookmark(event, ${movie.id})">
+                    <i data-lucide="${isBookmarked(movie.id) ? 'heart' : 'bookmark'}" width="20" height="20"></i>
+                </button>
+                <img src="${movie.poster}" alt="${movie.title}" class="movie-poster">
+                <div class="movie-info">
+                    <div class="movie-title">${movie.title}</div>
+                    <div class="movie-rating">${renderStars(movie.rating)} ${movie.rating}</div>
+                </div>
+            `;
+            
+            card.querySelector('.movie-poster').addEventListener('click', () => showMovieDetail(movie));
+            
+            return card;
+        }
+
+        function renderStars(rating) {
+            const fullStars = Math.floor(rating);
+            let stars = '';
+            for (let i = 0; i < fullStars; i++) {
+                stars += '⭐';
+            }
+            return stars;
+        }
+
+        // Movie Detail Modal
+        function showMovieDetail(movie) {
+            currentMovie = movie;
+            document.getElementById('modalTitle').textContent = movie.title;
+            document.getElementById('modalPoster').src = movie.poster;
+            document.getElementById('modalRating').innerHTML = `<div class="stars">${renderStars(movie.rating)}</div> <span class="ms-2">${movie.rating}/5.0</span>`;
+            document.getElementById('modalYear').textContent = `Tahun: ${movie.year}`;
+            document.getElementById('modalDuration').textContent = `Durasi: ${movie.duration}`;
+            document.getElementById('modalDescription').textContent = movie.description;
+            
+            const bookmarkBtn = document.getElementById('modalBookmarkBtn');
+            bookmarkBtn.innerHTML = `<i data-lucide="${isBookmarked(movie.id) ? 'heart' : 'bookmark'}" width="20" height="20"></i>`;
+            
+            const modal = new bootstrap.Modal(document.getElementById('movieModal'));
+            modal.show();
+            lucide.createIcons();
+        }
+
+        // Watch Movie
+        document.getElementById('watchNowBtn').addEventListener('click', function() {
+            // Check if already purchased (PPV)
+            if (currentMovie.isPPV && !purchasedMovies.includes(currentMovie.id)) {
+                bootstrap.Modal.getInstance(document.getElementById('movieModal')).hide();
+                setTimeout(() => {
+                    showPPVModal(currentMovie);
+                }, 300);
+                return;
+            }
+            
+            // Check premium subscription
+            if (currentMovie.isPremium && userSubscription === 'free' && !premiumUnlocked) {
+                bootstrap.Modal.getInstance(document.getElementById('movieModal')).hide();
+                setTimeout(() => {
+                    const paywallModal = new bootstrap.Modal(document.getElementById('paywallModal'));
+                    paywallModal.show();
+                }, 300);
+            } else {
+                showToast('🎬 Memulai pemutaran film...', 'success');
+                setTimeout(() => {
+                    showToast('✨ Selamat menonton!', 'success');
+                }, 1000);
+            }
+        });
+
+        // Show PPV Modal
+        function showPPVModal(movie) {
+            currentMovie = movie;
+            const adminFee = 1000;
+            const totalPrice = movie.ppvPrice + adminFee;
+            
+            document.getElementById('ppvTitle').textContent = movie.title;
+            document.getElementById('ppvPoster').src = movie.poster;
+            document.getElementById('ppvPrice').textContent = `Rp ${movie.ppvPrice.toLocaleString('id-ID')}`;
+            document.getElementById('ppvTotalPrice').textContent = `Rp ${totalPrice.toLocaleString('id-ID')}`;
+            
+            const modal = new bootstrap.Modal(document.getElementById('ppvModal'));
+            modal.show();
+            lucide.createIcons();
+        }
+
+        // Navigate to Payment Method
+        function showPaymentMethod() {
+            bootstrap.Modal.getInstance(document.getElementById('ppvModal')).hide();
+            
+            setTimeout(() => {
+                const modal = new bootstrap.Modal(document.getElementById('paymentMethodModal'));
+                modal.show();
+                lucide.createIcons();
+            }, 300);
+        }
+
+        // Back to PPV Modal
+        function backToPPV() {
+            bootstrap.Modal.getInstance(document.getElementById('paymentMethodModal')).hide();
+            setTimeout(() => showPPVModal(currentMovie), 300);
+        }
+
+        // Select Payment Method
+        function selectPaymentMethod(method) {
+            selectedPaymentMethod = method;
+            bootstrap.Modal.getInstance(document.getElementById('paymentMethodModal')).hide();
+            
+            setTimeout(() => {
+                showPaymentConfirmation(method);
+            }, 300);
+        }
+
+        // Show Payment Confirmation
+        function showPaymentConfirmation(method) {
+            const adminFee = 1000;
+            const totalPrice = currentMovie.ppvPrice + adminFee;
+            
+            // Hide all instruction sections first
+            document.getElementById('ewalletInstructions').style.display = 'none';
+            document.getElementById('vaInstructions').style.display = 'none';
+            document.getElementById('cardForm').style.display = 'none';
+            
+            const methodData = {
+                'gopay': {
+                    name: 'GoPay',
+                    icon: '<strong style="color: white;">Go</strong>',
+                    bg: '#00AA13',
+                    type: 'ewallet'
+                },
+                'ovo': {
+                    name: 'OVO',
+                    icon: '<strong style="color: white;">O</strong>',
+                    bg: '#4B2D83',
+                    type: 'ewallet'
+                },
+                'dana': {
+                    name: 'DANA',
+                    icon: '<strong style="color: white;">D</strong>',
+                    bg: '#118EEA',
+                    type: 'ewallet'
+                },
+                'bca': {
+                    name: 'BCA Virtual Account',
+                    icon: '<strong style="color: white;">BCA</strong>',
+                    bg: '#0066AE',
+                    type: 'va'
+                },
+                'mandiri': {
+                    name: 'Mandiri Virtual Account',
+                    icon: '<strong style="color: white; font-size: 0.8rem;">MND</strong>',
+                    bg: '#003D79',
+                    type: 'va'
+                },
+                'cc': {
+                    name: 'Credit/Debit Card',
+                    icon: '<i data-lucide="credit-card" width="30" height="30" style="color: white;"></i>',
+                    bg: 'linear-gradient(135deg, #FFD700, #FFA500)',
+                    type: 'card'
+                }
+            };
+            
+            const selected = methodData[method];
+            
+            document.getElementById('confirmPaymentTitle').textContent = `Bayar dengan ${selected.name}`;
+            document.getElementById('paymentMethodName').textContent = selected.name;
+            document.getElementById('confirmTotalPrice').textContent = `Rp ${totalPrice.toLocaleString('id-ID')}`;
+            
+            const iconDiv = document.getElementById('paymentMethodIcon');
+            iconDiv.style.background = selected.bg;
+            iconDiv.innerHTML = selected.icon;
+            
+            // Show appropriate instructions
+            if (selected.type === 'ewallet') {
+                document.getElementById('ewalletInstructions').style.display = 'block';
+                document.getElementById('ewalletName').textContent = selected.name;
+            } else if (selected.type === 'va') {
+                document.getElementById('vaInstructions').style.display = 'block';
+                const vaNumber = '8808' + Math.floor(Math.random() * 1000000000000);
+                document.getElementById('vaNumber').textContent = vaNumber;
+            } else if (selected.type === 'card') {
+                document.getElementById('cardForm').style.display = 'block';
+                setupCardInputs();
+            }
+            
+            const modal = new bootstrap.Modal(document.getElementById('paymentConfirmModal'));
+            modal.show();
+            lucide.createIcons();
+        }
+
+        // Back to Payment Method
+        function backToPaymentMethod() {
+            bootstrap.Modal.getInstance(document.getElementById('paymentConfirmModal')).hide();
+            setTimeout(() => {
+                const modal = new bootstrap.Modal(document.getElementById('paymentMethodModal'));
+                modal.show();
+            }, 300);
+        }
+
+        // Setup Card Inputs (Auto-format)
+        function setupCardInputs() {
+            const cardNumber = document.getElementById('cardNumber');
+            const cardExpiry = document.getElementById('cardExpiry');
+            const cardCVV = document.getElementById('cardCVV');
+            
+            cardNumber.addEventListener('input', function(e) {
+                let value = e.target.value.replace(/\s/g, '');
+                let formattedValue = value.match(/.{1,4}/g)?.join(' ') || value;
+                e.target.value = formattedValue;
+            });
+            
+            cardExpiry.addEventListener('input', function(e) {
+                let value = e.target.value.replace(/\D/g, '');
+                if (value.length >= 2) {
+                    value = value.slice(0, 2) + '/' + value.slice(2, 4);
+                }
+                e.target.value = value;
+            });
+            
+            cardCVV.addEventListener('input', function(e) {
+                e.target.value = e.target.value.replace(/\D/g, '');
+            });
+        }
+
+        // Copy VA Number
+        function copyVA() {
+            const vaNumber = document.getElementById('vaNumber').textContent;
+            navigator.clipboard.writeText(vaNumber);
+            showToast('✅ Nomor VA berhasil disalin!', 'success');
+        }
+
+        // Process Payment
+        function processPayment() {
+            // Validate card form if payment method is card
+            if (selectedPaymentMethod === 'cc') {
+                const cardNumber = document.getElementById('cardNumber').value;
+                const cardExpiry = document.getElementById('cardExpiry').value;
+                const cardCVV = document.getElementById('cardCVV').value;
+                const cardName = document.getElementById('cardName').value;
+                
+                if (!cardNumber || !cardExpiry || !cardCVV || !cardName) {
+                    showToast('⚠️ Mohon lengkapi semua data kartu', 'warning');
+                    return;
+                }
+            }
+            
+            // Hide confirmation modal
+            bootstrap.Modal.getInstance(document.getElementById('paymentConfirmModal')).hide();
+            
+            // Show processing modal
+            setTimeout(() => {
+                const processingModal = new bootstrap.Modal(document.getElementById('processingModal'));
+                processingModal.show();
+                
+                // Simulate payment processing
+                setTimeout(() => {
+                    processingModal.hide();
+                    
+                    // Add to purchased movies
+                    purchasedMovies.push(currentMovie.id);
+                    localStorage.setItem('purchased_movies', JSON.stringify(purchasedMovies));
+                    
+                    // Show success modal
+                    setTimeout(() => {
+                        showSuccessModal();
+                    }, 300);
+                }, 3000);
+            }, 300);
+        }
+
+        // Show Success Modal
+        function showSuccessModal() {
+            const adminFee = 1000;
+            const totalPrice = currentMovie.ppvPrice + adminFee;
+            
+            const methodNames = {
+                'gopay': 'GoPay',
+                'ovo': 'OVO',
+                'dana': 'DANA',
+                'bca': 'BCA Virtual Account',
+                'mandiri': 'Mandiri Virtual Account',
+                'cc': 'Credit Card'
+            };
+            
+            document.getElementById('successMovieTitle').textContent = currentMovie.title;
+            document.getElementById('successAmount').textContent = `Rp ${totalPrice.toLocaleString('id-ID')}`;
+            document.getElementById('successMethod').textContent = methodNames[selectedPaymentMethod];
+            
+            const modal = new bootstrap.Modal(document.getElementById('successModal'));
+            modal.show();
+            lucide.createIcons();
+            
+            renderMovies();
+        }
+
+        // Watch Movie Now
+        function watchMovieNow() {
+            bootstrap.Modal.getInstance(document.getElementById('successModal')).hide();
+            showToast('🎬 Memulai pemutaran film...', 'success');
+            setTimeout(() => {
+                showToast('✨ Selamat menonton!', 'success');
+            }, 1000);
+        }
+
+        // Process PPV Payment (Legacy - kept for compatibility)
+        function processPPV(method) {
+            selectPaymentMethod(method);
+        }
+
+        // Bookmark Functions
+        function toggleBookmark(event, movieId) {
+            event.stopPropagation();
+            const index = watchlist.indexOf(movieId);
+            
+            if (index > -1) {
+                watchlist.splice(index, 1);
+                showToast('❌ Dihapus dari watchlist', 'info');
+            } else {
+                watchlist.push(movieId);
+                showToast('✅ Ditambahkan ke watchlist', 'success');
+            }
+            
+            localStorage.setItem('watchlist', JSON.stringify(watchlist));
+            renderMovies();
+            lucide.createIcons();
+        }
+
+        function isBookmarked(movieId) {
+            return watchlist.includes(movieId);
+        }
+
+        // Modal Bookmark Button
+        document.getElementById('modalBookmarkBtn').addEventListener('click', function() {
+            if (currentMovie) {
+                toggleBookmark(event, currentMovie.id);
+                const bookmarkBtn = document.getElementById('modalBookmarkBtn');
+                bookmarkBtn.innerHTML = `<i data-lucide="${isBookmarked(currentMovie.id) ? 'heart' : 'bookmark'}" width="20" height="20"></i>`;
+                lucide.createIcons();
+            }
+        });
+
+        // Watchlist Modal
+        function showWatchlist() {
+            const content = document.getElementById('watchlistContent');
+            
+            if (watchlist.length === 0) {
+                content.innerHTML = `
+                    <div class="col-12 text-center text-muted">
+                        <i data-lucide="bookmark" width="60" height="60" style="opacity: 0.3;"></i>
+                        <p class="mt-3">Watchlist kosong. Tambahkan film favorit Anda!</p>
+                    </div>
+                `;
+            } else {
+                content.innerHTML = '';
+                const allMovies = [...moviesData.trending, ...moviesData.topRated, ...moviesData.newReleases, ...moviesData.classic];
+                
+                watchlist.forEach(movieId => {
+                    const movie = allMovies.find(m => m.id === movieId);
+                    if (movie) {
+                        const col = document.createElement('div');
+                        col.className = 'col-md-3 col-6';
+                        col.innerHTML = `
+                            <div class="movie-card" onclick="showMovieDetail(${JSON.stringify(movie).replace(/"/g, '&quot;')})">
+                                <button class="bookmark-btn active" onclick="toggleBookmark(event, ${movie.id})">
+                                    <i data-lucide="heart" width="20" height="20"></i>
+                                </button>
+                                <img src="${movie.poster}" alt="${movie.title}" class="movie-poster">
+                                <div class="movie-info">
+                                    <div class="movie-title">${movie.title}</div>
+                                    <div class="movie-rating">${renderStars(movie.rating)} ${movie.rating}</div>
+                                </div>
+                            </div>
+                        `;
+                        content.appendChild(col);
+                    }
+                });
+            }
+            
+            const modal = new bootstrap.Modal(document.getElementById('watchlistModal'));
+            modal.show();
+            lucide.createIcons();
+        }
+
+        // Subscription Functions
+        function showSubscription() {
+            bootstrap.Modal.getInstance(document.getElementById('paywallModal'))?.hide();
+            const modal = new bootstrap.Modal(document.getElementById('subscriptionModal'));
+            modal.show();
+            lucide.createIcons();
+        }
+
+        function upgradePremium(plan) {
+            userSubscription = plan;
+            localStorage.setItem('subscription', plan);
+            showToast(`🎉 Selamat! Anda sekarang Premium ${plan === 'monthly' ? 'Monthly' : 'Yearly'}!`, 'success');
+            bootstrap.Modal.getInstance(document.getElementById('subscriptionModal')).hide();
+            renderMovies();
+        }
+
+        // Toast Notification
+        function showToast(message, type = 'info') {
+            const container = document.querySelector('.toast-container');
+            const toast = document.createElement('div');
+            toast.className = 'toast custom-toast show';
+            toast.setAttribute('role', 'alert');
+            toast.innerHTML = `
+                <div class="toast-body">
+                    ${message}
+                </div>
+            `;
+            
+            container.appendChild(toast);
+            
+            setTimeout(() => {
+                toast.classList.remove('show');
+                setTimeout(() => toast.remove(), 300);
+            }, 3000);
+        }
+
+        // Konami Code Easter Egg
+        function setupKonamiCode() {
+            document.addEventListener('keydown', function(e) {
+                if (e.key === konamiCode[konamiIndex]) {
+                    konamiIndex++;
+                    if (konamiIndex === konamiCode.length) {
+                        activateKonamiReward();
+                        konamiIndex = 0;
+                    }
+                } else {
+                    konamiIndex = 0;
+                }
+            });
+        }
+
+        function activateKonamiReward() {
+            if (!premiumUnlocked) {
+                premiumUnlocked = true;
+                localStorage.setItem('konami_premium', 'true');
+                showToast('🎮 KONAMI CODE ACTIVATED! Semua film premium unlocked!', 'success');
+                renderMovies();
+            } else {
+                showToast('🎮 Konami code sudah aktif!', 'info');
+            }
+        }
+
+        // Event Listeners
+        function setupEventListeners() {
+            document.getElementById('subscriptionBtn').addEventListener('click', showSubscription);
+            document.getElementById('watchlistBtn').addEventListener('click', showWatchlist);
+            document.getElementById('mobilePremium').addEventListener('click', (e) => {
+                e.preventDefault();
+                showSubscription();
+            });
+            document.getElementById('mobileWatchlist').addEventListener('click', (e) => {
+                e.preventDefault();
+                showWatchlist();
+            });
+
+            // Filter functionality
+            document.getElementById('applyFilter').addEventListener('click', applyFilters);
+            document.getElementById('resetFilter').addEventListener('click', resetFilters);
+            
+            document.getElementById('categoryFilter').addEventListener('change', (e) => {
+                currentFilters.category = e.target.value;
+            });
+            
+            document.getElementById('yearFilter').addEventListener('change', (e) => {
+                currentFilters.year = e.target.value;
+            });
+            
+            document.getElementById('ratingFilter').addEventListener('change', (e) => {
+                currentFilters.rating = e.target.value;
+            });
+            
+            document.getElementById('priceFilter').addEventListener('change', (e) => {
+                currentFilters.price = e.target.value;
+            });
+
+            // Search functionality
+            const searchInputs = document.querySelectorAll('.search-input');
+            searchInputs.forEach(input => {
+                input.addEventListener('input', function(e) {
+                    const query = e.target.value.toLowerCase();
+                    if (query.length > 2) {
+                        searchMovies(query);
+                    } else if (query.length === 0) {
+                        renderMovies();
+                    }
+                });
+            });
+        }
+
+        // Filter Functions
+        function applyFilters() {
+            const allMovies = [...moviesData.trending, ...moviesData.topRated, ...moviesData.newReleases, ...moviesData.classic];
+            let filtered = allMovies;
+
+            // Category filter
+            if (currentFilters.category !== 'all') {
+                if (currentFilters.category === 'trending') filtered = moviesData.trending;
+                else if (currentFilters.category === 'toprated') filtered = moviesData.topRated;
+                else if (currentFilters.category === 'new') filtered = moviesData.newReleases;
+                else if (currentFilters.category === 'classic') filtered = moviesData.classic;
+            }
+
+            // Year filter
+            if (currentFilters.year !== 'all') {
+                filtered = filtered.filter(m => {
+                    if (currentFilters.year === '2024') return m.year === 2024;
+                    if (currentFilters.year === '2023') return m.year === 2023;
+                    if (currentFilters.year === '2020s') return m.year >= 2020 && m.year <= 2022;
+                    if (currentFilters.year === '2010s') return m.year >= 2010 && m.year <= 2019;
+                    if (currentFilters.year === '2000s') return m.year >= 2000 && m.year <= 2009;
+                    if (currentFilters.year === 'classic') return m.year >= 1980 && m.year <= 1999;
+                    return true;
+                });
+            }
+
+            // Rating filter
+            if (currentFilters.rating !== 'all') {
+                const minRating = parseFloat(currentFilters.rating);
+                filtered = filtered.filter(m => m.rating >= minRating);
+            }
+
+            // Price filter
+            if (currentFilters.price !== 'all') {
+                filtered = filtered.filter(m => {
+                    if (currentFilters.price === 'free') return !m.isPremium && !m.isPPV;
+                    if (currentFilters.price === 'premium') return m.isPremium;
+                    if (currentFilters.price === 'ppv') return m.isPPV;
+                    return true;
+                });
+            }
+
+            // Display results
+            displayFilteredMovies(filtered);
+            showToast(`🔍 Ditemukan ${filtered.length} film`, 'success');
+        }
+
+        function resetFilters() {
+            currentFilters = {
+                category: 'all',
+                year: 'all',
+                rating: 'all',
+                price: 'all'
+            };
+            
+            document.getElementById('categoryFilter').value = 'all';
+            document.getElementById('yearFilter').value = 'all';
+            document.getElementById('ratingFilter').value = 'all';
+            document.getElementById('priceFilter').value = 'all';
+            
+            renderMovies();
+            showToast('🔄 Filter direset', 'info');
+        }
+
+        function displayFilteredMovies(movies) {
+            // Clear all carousels first
+            ['trendingCarousel', 'topRatedCarousel', 'newReleasesCarousel', 'classicCarousel'].forEach(id => {
+                document.getElementById(id).innerHTML = '';
+            });
+
+            // Display in trending carousel
+            const carousel = document.getElementById('trendingCarousel');
+            if (movies.length === 0) {
+                carousel.innerHTML = '<div class="text-muted p-4">Tidak ada film yang sesuai filter</div>';
+            } else {
+                movies.forEach(movie => {
+                    carousel.appendChild(createMovieCard(movie));
+                });
+            }
+            
+            lucide.createIcons();
+        }
+
+        function searchMovies(query) {
+            const allMovies = [...moviesData.trending, ...moviesData.topRated, ...moviesData.newReleases, ...moviesData.classic];
+            const results = allMovies.filter(m => 
+                m.title.toLowerCase().includes(query) ||
+                m.description.toLowerCase().includes(query)
+            );
+            
+            displayFilteredMovies(results);
+            showToast(`🔍 Ditemukan ${results.length} film untuk "${query}"`, 'info');
+        }
+
+        // Service Worker Registration
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('/sw.js')
+                    .then(reg => console.log('Service Worker registered'))
+                    .catch(err => console.log('Service Worker registration failed'));
+            });
+        }
+
+        // PWA Install Prompt
+        let deferredPrompt;
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            deferredPrompt = e;
+            showToast('📱 Install Tontoon sebagai aplikasi?', 'info');
+        });
+
+        // Pull to Refresh
+        let touchStartY = 0;
+        document.addEventListener('touchstart', (e) => {
+            touchStartY = e.touches[0].clientY;
+        });
+
+        document.addEventListener('touchmove', (e) => {
+            const touchY = e.touches[0].clientY;
+            const touchDiff = touchY - touchStartY;
+            
+            if (touchDiff > 100 && window.scrollY === 0) {
+                showToast('🔄 Memuat ulang...', 'info');
+                setTimeout(() => {
+                    location.reload();
+                }, 500);
+            }
+        });
+    </script>
+
+    <!-- Service Worker Script (Inline) -->
+    <script>
+        // Create Service Worker content
+        const swContent = `
+            const CACHE_NAME = 'tontoon-v1';
+            const urlsToCache = [
+                '/',
+                '/index.html',
+                'https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css',
+                'https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js',
+                'https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=Inter:wght@300;400;500&display=swap'
+            ];
+
+            self.addEventListener('install', event => {
+                event.waitUntil(
+                    caches.open(CACHE_NAME)
+                        .then(cache => cache.addAll(urlsToCache))
+                );
+            });
+
+            self.addEventListener('fetch', event => {
+                event.respondWith(
+                    caches.match(event.request)
+                        .then(response => response || fetch(event.request))
+                );
+            });
+        `;
+
+        // Create manifest.json content
+        const manifest = {
+            name: "Tontoon - Action Movie Streaming",
+            short_name: "Tontoon",
+            description: "Platform streaming film action premium",
+            start_url: "/",
+            display: "standalone",
+            background_color: "#2E073F",
+            theme_color: "#2E073F",
+            icons: [
+                {
+                    src: "https://images.unsplash.com/photo-1478720568477-152d9b164e26?w=192&h=192&fit=crop",
+                    sizes: "192x192",
+                    type: "image/png"
+                },
+                {
+                    src: "https://images.unsplash.com/photo-1478720568477-152d9b164e26?w=512&h=512&fit=crop",
+                    sizes: "512x512",
+                    type: "image/png"
+                }
+            ]
+        };
+
+        // Add manifest to head
+        const manifestBlob = new Blob([JSON.stringify(manifest)], {type: 'application/json'});
+        const manifestURL = URL.createObjectURL(manifestBlob);
+        const manifestLink = document.createElement('link');
+        manifestLink.rel = 'manifest';
+        manifestLink.href = manifestURL;
+        document.head.appendChild(manifestLink);
+    </script>
+</body>
+</html>
