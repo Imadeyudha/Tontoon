@@ -656,31 +656,7 @@
             });
         }
         
-        // Web App Manifest
-        const manifest = {
-            "name": "TONTOON",
-            "short_name": "TONTOON",
-            "description": "Aplikasi streaming film terlengkap dan terbaru",
-            "start_url": "/",
-            "display": "standalone",
-            "background_color": "#2E073F",
-            "theme_color": "#7A1CAC",
-            "icons": [
-                {
-                    "src": "https://via.placeholder.com/192x192/7A1CAC/FFFFFF?text=T",
-                    "sizes": "192x192",
-                    "type": "image/png"
-                },
-                {
-                    "src": "https://via.placeholder.com/512x512/7A1CAC/FFFFFF?text=T",
-                    "sizes": "512x512",
-                    "type": "image/png"
-                }
-            ]
-        };
         
-        // Set manifest
-        document.getElementById('app-manifest').setAttribute('href', 'data:application/json,' + encodeURIComponent(JSON.stringify(manifest)));
         
         // ==================== SISTEM AUTHENTIKASI ====================
         // Hash password sederhana
@@ -770,7 +746,7 @@
             { id: 3, title: "Avengers Infinity War", year: 2018, rating: 8.4, genre: ["Action", "Adventure", "Sci-Fi"], duration: "149 min", poster: "assets/Avangers infinity war.jpg", banner: "assets/Avangers infinity war.jpg" },
             { id: 4, title: "Badlands", year: 2024, rating: 7.2, genre: ["Action", "Thriller"], duration: "115 min", poster: "assets/badlands.jpg", banner: "assets/badlands.jpg" },
             { id: 5, title: "Battle of the Gods", year: 2023, rating: 7.5, genre: ["Action", "Fantasy"], duration: "128 min", poster: "assets/Battle of the Gods.jpg", banner: "assets/Battle of the Gods.jpg" },
-            { id: 6, title: "Beekeeper", year: 2024, rating: 6.7, genre: ["Action", "Thriller"], duration: "105 min", poster: "assets/beekeeper.jpgr", banner: "assets/beekeeper.jpg" },
+            { id: 6, title: "Beekeeper", year: 2024, rating: 6.7, genre: ["Action", "Thriller"], duration: "105 min", poster: "assets/beekeeper.jpg", banner: "assets/beekeeper.jpg" },
             { id: 7, title: "Black Adam", year: 2022, rating: 6.3, genre: ["Action", "Adventure", "Fantasy"], duration: "125 min", poster: "assets/black adam .jpg", banner: "assets/black adam .jpg" },
             { id: 8, title: "Blade Runner 2049", year: 2017, rating: 8.0, genre: ["Drama", "Mystery", "Sci-Fi"], duration: "164 min", poster: "assets/Blade Runner 2049.jpg", banner: "assets/Blade Runner 2049.jpg" },
             { id: 9, title: "Bullet Train", year: 2022, rating: 7.3, genre: ["Action", "Comedy", "Thriller"], duration: "127 min", poster: "assets/Bullet Train.jpg", banner: "assets/Bullet Train.jpg" },
