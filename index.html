@@ -32,7 +32,7 @@
         }
 
         [data-theme="light"] {
-            --primary-bg: #f8f9fa;
+            --primary-bg: #ffffff;
             --primary-nav: #7A1CAC;
             --accent-hover: #AD49E1;
             --text-color: #000000;
@@ -40,6 +40,17 @@
             --glass-bg: rgba(122, 28, 172, 0.1);
             --dark-overlay: rgba(248, 249, 250, 0.95);
             --carousel-overlay: rgba(248, 249, 250, 0.95);
+        }
+
+        /* Adjust text color on images for light theme for better readability */
+        [data-theme="light"] .movie-overlay,
+        [data-theme="light"] .carousel-title,
+        [data-theme="light"] .carousel-info,
+        [data-theme="light"] .carousel-genres,
+        [data-theme="light"] .carousel-genre,
+        [data-theme="light"] .carousel-rating,
+        [data-theme="light"] .carousel-year {
+            color: #FFFFFF !important;
         }
         
         * {
@@ -162,18 +173,19 @@
         
         /* Carousel Trending */
         .carousel-trending {
-            height: 400px;
+            height: 450px;
             border-radius: 16px;
             overflow: hidden;
             margin-bottom: 2rem;
             position: relative;
         }
-        
+
         .carousel-item {
-            height: 400px;
+            height: 450px;
             position: relative;
+            padding: 20px;
         }
-        
+
         .carousel-image {
             width: 100%;
             height: 100%;
@@ -241,22 +253,25 @@
         }
         
         .carousel-btn {
-            background-color: rgba(0, 0, 0, 0.5);
-            border: none;
-            width: 50px;
-            height: 50px;
+            background-color: rgba(0, 0, 0, 0.6);
+            border: 2px solid rgba(255, 255, 255, 0.5);
+            width: 60px;
+            height: 60px;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
             color: var(--text-color);
-            font-size: 1.5rem;
+            font-size: 1.8rem;
             cursor: pointer;
-            transition: background-color 0.3s ease;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
         }
-        
+
         .carousel-btn:hover {
             background-color: rgba(0, 0, 0, 0.8);
+            transform: scale(1.1);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.4);
         }
         
         .carousel-indicators-custom {
@@ -415,6 +430,18 @@
             color: var(--text-color);
         }
 
+        /* Search Results Container */
+        .search-results-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            gap: 1.5rem;
+            justify-items: center;
+        }
+
+        .no-results {
+            grid-column: 1 / -1;
+        }
+
         /* Utility Classes */
         .page-transition {
             animation: fadeIn 0.3s ease;
@@ -426,20 +453,56 @@
         }
         
         .back-button {
-            background-color: var(--accent-hover);
-            color: white;
-            border: none;
+            background: var(--glass-bg);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: var(--text-color);
             border-radius: 50%;
-            width: 40px;
-            height: 40px;
+            width: 50px;
+            height: 50px;
             display: flex;
             align-items: center;
             justify-content: center;
             cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            position: relative;
+            overflow: hidden;
         }
-        
+
+        .back-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s;
+        }
+
+        .back-button:hover::before {
+            left: 100%;
+        }
+
         .back-button:hover {
-            background-color: var(--primary-nav);
+            transform: translateY(-2px) scale(1.05);
+            box-shadow: 0 8px 25px rgba(173, 73, 225, 0.3);
+            border-color: var(--accent-hover);
+        }
+
+        .back-button:active {
+            transform: translateY(0) scale(0.98);
+        }
+
+        .back-button i {
+            font-size: 1.2rem;
+            transition: transform 0.3s ease;
+        }
+
+        .back-button:hover i {
+            transform: translateX(-2px);
         }
         
         /* Responsive */
@@ -483,6 +546,7 @@
 
             .carousel-item {
                 height: 300px;
+                padding: 15px;
             }
 
             .carousel-overlay {
@@ -538,7 +602,16 @@
         <!-- Navbar -->
         <nav class="navbar navbar-expand-lg glass fixed-top">
             <div class="container-fluid">
-                <a class="navbar-brand" href="#" onclick="loadPage('home')">TONTOON</a>
+                <a class="navbar-brand d-flex align-items-center" href="#" onclick="loadPage('home')">
+                    <img src="assets/logotontoon.png" alt="TONTOON Logo" style="height: 30px; margin-right: 10px;">
+                    TONTOON
+                </a>
+
+                <div class="d-lg-none ms-auto me-2">
+                    <button class="btn btn-link p-0" id="mobileProfileBtn" onclick="toggleMobileMenu()" style="display: none;">
+                        <img src="https://via.placeholder.com/30x30/7A1CAC/FFFFFF?text=U" alt="Profile" class="rounded-circle" style="width: 30px; height: 30px; object-fit: cover;" id="mobileProfileImg">
+                    </button>
+                </div>
 
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" onclick="toggleMobileMenu()">
                     <i class="fas fa-bars text-white"></i>
@@ -572,7 +645,7 @@
         </nav>
         
         <!-- Main Content Area -->
-        <main class="container-fluid mt-5 pt-4 pb-5" id="main-content">
+        <main class="container-fluid mt-8 pt-5 pb-5" id="main-content">
             <!-- Konten akan dimuat secara dinamis di sini -->
             <div class="text-center py-5">
                 <div class="spinner-border text-primary" role="status">
@@ -600,10 +673,7 @@
                 <i class="fas fa-user"></i>
                 <span>Profile</span>
             </a>
-            <a href="#" class="bottom-nav-item" onclick="toggleTheme()">
-                <i class="fas fa-moon" id="mobile-theme-icon"></i>
-                <span>Theme</span>
-            </a>
+
         </div>
     </div>
     
@@ -1012,9 +1082,10 @@
         
         // Toggle tema gelap/terang
         function toggleTheme() {
-            const currentTheme = document.documentElement.getAttribute('data-theme') || 'dark';
+            const currentTheme = document.documentElement.dataset.theme || 'dark';
             const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
-            document.documentElement.setAttribute('data-theme', newTheme);
+            console.log('Toggling theme from', currentTheme, 'to', newTheme);
+            document.documentElement.dataset.theme = newTheme;
             localStorage.setItem('tontoon_theme', newTheme);
 
             // Update icon tema navbar
@@ -1043,11 +1114,32 @@
                 navbarNav.classList.toggle('show');
             }
         }
+
+        // Update mobile profile image
+        function updateMobileProfileImage() {
+            const session = getSession();
+            const users = getUsers();
+            const user = users.find(u => u.id === session.userId);
+
+            const mobileProfileBtn = document.getElementById('mobileProfileBtn');
+            const mobileProfileImg = document.getElementById('mobileProfileImg');
+
+            if (user && mobileProfileBtn && mobileProfileImg) {
+                if (user.profilePicture) {
+                    mobileProfileImg.src = user.profilePicture;
+                } else {
+                    mobileProfileImg.src = 'https://via.placeholder.com/30x30/7A1CAC/FFFFFF?text=U';
+                }
+                mobileProfileBtn.style.display = 'block';
+            } else if (mobileProfileBtn) {
+                mobileProfileBtn.style.display = 'none';
+            }
+        }
         
         // Load tema dari localStorage
         function loadTheme() {
-            const savedTheme = localStorage.getItem('tontoon_theme') || 'dark';
-            document.documentElement.setAttribute('data-theme', savedTheme);
+            const savedTheme = 'light'; // Force light theme by default
+            document.documentElement.dataset.theme = savedTheme;
 
             // Update icon tema navbar
             const themeIcon = document.querySelector('#theme-toggle i');
@@ -1199,9 +1291,13 @@
                         content = loadHomePage();
                 }
                 
-                // Tambahkan animasi transisi
-                mainContent.className = 'container-fluid mt-5 pt-4 pb-5 page-transition';
-                mainContent.innerHTML = content;
+        // Tambahkan animasi transisi
+        if (page === 'movie-detail') {
+            mainContent.className = 'container-fluid mt-5 pt-5 pb-5 page-transition';
+        } else {
+            mainContent.className = 'container-fluid mt-5 pt-4 pb-5 page-transition';
+        }
+        mainContent.innerHTML = content;
                 
                 // Update bottom navigation
                 updateBottomNav(page);
@@ -1253,8 +1349,8 @@
             const session = getSession();
             const userName = session.name || 'Pengguna';
             
-            // Ambil film trending (rating tertinggi) untuk carousel
-            const trendingMovies = [...movies].sort((a, b) => b.rating - a.rating).slice(0, 5);
+            // Ambil film trending (5 film pertama) untuk carousel
+            const trendingMovies = movies.slice(0, 5);
             
             // Ambil film terbaru (5 film pertama)
             const newReleases = movies.slice(0, 8);
@@ -1271,7 +1367,7 @@
             return `
                 <div class="container">
                     <!-- Header dengan sapaan -->
-                    <div class="row mb-4">
+                    <div class="row mb-4 mt-4">
                         <div class="col">
                             <h2 class="fw-bold">Selamat datang, ${userName}</h2>
                             <p class="text-muted">Nikmati film terbaru dan terlengkap hanya di TONTOON</p>
@@ -1309,17 +1405,7 @@
                                         </div>
                                     </div>
                                 `).join('')}
-                                
-                                <!-- Carousel Controls -->
-                                <div class="carousel-controls">
-                                    <button class="carousel-btn" onclick="prevCarousel()">
-                                        <i class="fas fa-chevron-left"></i>
-                                    </button>
-                                    <button class="carousel-btn" onclick="nextCarousel()">
-                                        <i class="fas fa-chevron-right"></i>
-                                    </button>
-                                </div>
-                                
+
                                 <!-- Carousel Indicators -->
                                 <div class="carousel-indicators-custom">
                                     ${trendingMovies.map((_, index) => `
@@ -1515,17 +1601,8 @@
         function loadSearchPage() {
             return `
                 <div class="container">
-                    <!-- Back Button -->
-                    <div class="row mb-4">
-                        <div class="col">
-                            <button class="back-button">
-                                <i class="fas fa-arrow-left"></i>
-                            </button>
-                        </div>
-                    </div>
-                    
                     <!-- Header Search -->
-                    <div class="row mb-4">
+                    <div class="row mb-4 mt-3">
                         <div class="col">
                             <h2 class="fw-bold">Cari Film</h2>
                             <p class="text-muted">Temukan film favorit Anda</p>
@@ -1589,9 +1666,9 @@
                     <div class="row">
                         <div class="col">
                             <h5>Hasil Pencarian</h5>
-                            <div class="row" id="searchResults">
+                            <div class="search-results-container" id="searchResults">
                                 <!-- Hasil pencarian akan ditampilkan di sini -->
-                                <div class="col-12 text-center py-5">
+                                <div class="no-results text-center py-5">
                                     <i class="fas fa-film fa-3x mb-3 text-muted"></i>
                                     <p class="text-muted">Masukkan kata kunci pencarian untuk menemukan film</p>
                                 </div>
@@ -1651,61 +1728,99 @@
         // Fungsi untuk menampilkan hasil pencarian
         function displaySearchResults(results) {
             const resultsContainer = document.getElementById('searchResults');
-            
+
             if (results.length === 0) {
                 resultsContainer.innerHTML = `
-                    <div class="col-12 text-center py-5">
+                    <div class="no-results text-center py-5">
                         <i class="fas fa-search fa-3x mb-3 text-muted"></i>
                         <p class="text-muted">Tidak ada film yang ditemukan</p>
                     </div>
                 `;
                 return;
             }
-            
-            // Tampilkan hasil dalam grid
+
+            // Tampilkan hasil dalam grid tanpa Bootstrap grid classes
             let html = '';
             results.forEach(movie => {
-                html += `
-                    <div class="col-6 col-md-4 col-lg-3 mb-4">
-                        ${generateMovieCard(movie)}
-                    </div>
-                `;
+                html += generateMovieCard(movie);
             });
-            
+
             resultsContainer.innerHTML = html;
         }
-        
+
         // ==================== HALAMAN WATCHLIST ====================
         function loadWatchlistPage() {
             const session = getSession();
             const users = getUsers();
             const user = users.find(u => u.id === session.userId);
             const watchlist = user ? user.watchlist : [];
-            
+
             // Ambil film dari watchlist
-            const watchlistMovies = movies.filter(movie => watchlist.includes(movie.id));
-            
+            let watchlistMovies = movies.filter(movie => watchlist.includes(movie.id));
+
+            // Default sorting: berdasarkan judul secara alfabetis
+            watchlistMovies.sort((a, b) => a.title.localeCompare(b.title));
+
             return `
                 <div class="container">
-                    <!-- Back Button -->
-                    <div class="row mb-4">
-                        <div class="col">
-                            <button class="back-button">
-                                <i class="fas fa-arrow-left"></i>
-                            </button>
-                        </div>
-                    </div>
-                    
                     <!-- Header -->
-                    <div class="row mb-4">
+                    <div class="row mb-4 mt-3">
                         <div class="col">
                             <h2 class="fw-bold">Watchlist Saya</h2>
                             <p class="text-muted">Film yang sudah Anda simpan untuk ditonton nanti</p>
                         </div>
                     </div>
-                    
+
+                    <!-- Sorting and Filter Controls -->
+                    ${watchlistMovies.length > 0 ? `
+                        <div class="row mb-4">
+                            <div class="col">
+                                <div class="d-flex flex-wrap gap-3 align-items-center">
+                                    <div class="d-flex align-items-center">
+                                        <label class="me-2 fw-bold">Urutkan:</label>
+                                        <select class="form-select form-select-sm" id="watchlistSort" onchange="updateWatchlistView()" style="width: auto;">
+                                            <option value="title-asc">Judul A-Z</option>
+                                            <option value="title-desc">Judul Z-A</option>
+                                            <option value="year-desc">Tahun Terbaru</option>
+                                            <option value="year-asc">Tahun Terlama</option>
+                                            <option value="rating-desc">Rating Tertinggi</option>
+                                            <option value="rating-asc">Rating Terendah</option>
+                                        </select>
+                                    </div>
+
+                                    <div class="d-flex align-items-center">
+                                        <label class="me-2 fw-bold">Filter Genre:</label>
+                                        <select class="form-select form-select-sm" id="watchlistGenreFilter" onchange="updateWatchlistView()" style="width: auto;">
+                                            <option value="">Semua Genre</option>
+                                            <option value="Action">Action</option>
+                                            <option value="Adventure">Adventure</option>
+                                            <option value="Sci-Fi">Sci-Fi</option>
+                                            <option value="Drama">Drama</option>
+                                            <option value="Thriller">Thriller</option>
+                                            <option value="Fantasy">Fantasy</option>
+                                            <option value="Comedy">Comedy</option>
+                                            <option value="Crime">Crime</option>
+                                        </select>
+                                    </div>
+
+                                    <div class="d-flex align-items-center">
+                                        <label class="me-2 fw-bold">Tampilan:</label>
+                                        <div class="btn-group btn-group-sm" role="group">
+                                            <button type="button" class="btn btn-outline-primary active" id="gridViewBtn" onclick="toggleView('grid')">
+                                                <i class="fas fa-th"></i>
+                                            </button>
+                                            <button type="button" class="btn btn-outline-primary" id="listViewBtn" onclick="toggleView('list')">
+                                                <i class="fas fa-list"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    ` : ''}
+
                     <!-- Watchlist Content -->
-                    <div class="row">
+                    <div class="row" id="watchlistContent">
                         ${watchlistMovies.length === 0 ? `
                             <div class="col-12 text-center py-5">
                                 <i class="fas fa-bookmark fa-3x mb-3 text-muted"></i>
@@ -1713,11 +1828,40 @@
                                 <p class="text-muted">Simpan film untuk ditonton nanti dengan menekan tombol bookmark</p>
                             </div>
                         ` : `
-                            ${watchlistMovies.map(movie => `
-                                <div class="col-6 col-md-4 col-lg-3 mb-4">
-                                    ${generateMovieCard(movie)}
-                                </div>
-                            `).join('')}
+                            <div id="watchlistGridView">
+                                ${watchlistMovies.map(movie => `
+                                    <div class="col-6 col-md-4 col-lg-3 mb-4 watchlist-item" data-movie-id="${movie.id}">
+                                        ${generateMovieCard(movie)}
+                                    </div>
+                                `).join('')}
+                            </div>
+                            <div id="watchlistListView" style="display: none;">
+                                ${watchlistMovies.map(movie => `
+                                    <div class="col-12 mb-3 watchlist-item" data-movie-id="${movie.id}">
+                                        <div class="d-flex align-items-center p-3 glass rounded">
+                                            <img src="${movie.poster}" alt="${movie.title}" class="rounded me-3" style="width: 80px; height: 120px; object-fit: cover;">
+                                            <div class="flex-grow-1">
+                                                <h5 class="mb-1">${movie.title}</h5>
+                                                <p class="mb-1 text-muted">${movie.year} • ${movie.genre.join(', ')} • ${movie.duration}</p>
+                                                <div class="d-flex align-items-center">
+                                                    <span class="badge bg-warning text-dark me-2">
+                                                        <i class="fas fa-star me-1"></i>${formatRating(movie.rating)}
+                                                    </span>
+                                                    <small class="text-muted">${movie.director || 'Unknown'}</small>
+                                                </div>
+                                            </div>
+                                            <div class="d-flex flex-column gap-2">
+                                                <button class="btn btn-primary btn-sm" onclick="playMovie(${movie.id})">
+                                                    <i class="fas fa-play me-1"></i> Putar
+                                                </button>
+                                                <button class="btn btn-outline-danger btn-sm" onclick="removeFromWatchlist(${movie.id})">
+                                                    <i class="fas fa-trash me-1"></i> Hapus
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                `).join('')}
+                            </div>
                         `}
                     </div>
                 </div>
@@ -1730,31 +1874,81 @@
             const users = getUsers();
             const user = users.find(u => u.id === session.userId);
             const history = user ? user.history : [];
-            
+
             // Ambil film dari history (dibalik urutannya agar yang terbaru muncul pertama)
-            const historyMovies = movies.filter(movie => history.includes(movie.id));
-            
+            let historyMovies = movies.filter(movie => history.includes(movie.id));
+
+            // Default sorting: berdasarkan urutan history (terbaru dulu)
+            historyMovies.reverse();
+
             return `
                 <div class="container">
-                    <!-- Back Button -->
-                    <div class="row mb-4">
-                        <div class="col">
-                            <button class="back-button">
-                                <i class="fas fa-arrow-left"></i>
-                            </button>
-                        </div>
-                    </div>
-                    
                     <!-- Header -->
-                    <div class="row mb-4">
+                    <div class="row mb-4 mt-3">
                         <div class="col">
                             <h2 class="fw-bold">Riwayat Tontonan</h2>
                             <p class="text-muted">Film yang sudah Anda tonton</p>
                         </div>
                     </div>
-                    
+
+                    <!-- Controls -->
+                    ${historyMovies.length > 0 ? `
+                        <div class="row mb-4">
+                            <div class="col">
+                                <div class="d-flex flex-wrap gap-3 align-items-center justify-content-between">
+                                    <div class="d-flex flex-wrap gap-3 align-items-center">
+                                        <div class="d-flex align-items-center">
+                                            <label class="me-2 fw-bold">Urutkan:</label>
+                                            <select class="form-select form-select-sm" id="historySort" onchange="updateHistoryView()" style="width: auto;">
+                                                <option value="recent">Terbaru Dulu</option>
+                                                <option value="oldest">Terlama Dulu</option>
+                                                <option value="title-asc">Judul A-Z</option>
+                                                <option value="title-desc">Judul Z-A</option>
+                                                <option value="year-desc">Tahun Terbaru</option>
+                                                <option value="year-asc">Tahun Terlama</option>
+                                                <option value="rating-desc">Rating Tertinggi</option>
+                                                <option value="rating-asc">Rating Terendah</option>
+                                            </select>
+                                        </div>
+
+                                        <div class="d-flex align-items-center">
+                                            <label class="me-2 fw-bold">Filter Genre:</label>
+                                            <select class="form-select form-select-sm" id="historyGenreFilter" onchange="updateHistoryView()" style="width: auto;">
+                                                <option value="">Semua Genre</option>
+                                                <option value="Action">Action</option>
+                                                <option value="Adventure">Adventure</option>
+                                                <option value="Sci-Fi">Sci-Fi</option>
+                                                <option value="Drama">Drama</option>
+                                                <option value="Thriller">Thriller</option>
+                                                <option value="Fantasy">Fantasy</option>
+                                                <option value="Comedy">Comedy</option>
+                                                <option value="Crime">Crime</option>
+                                            </select>
+                                        </div>
+
+                                        <div class="d-flex align-items-center">
+                                            <label class="me-2 fw-bold">Tampilan:</label>
+                                            <div class="btn-group btn-group-sm" role="group">
+                                                <button type="button" class="btn btn-outline-primary active" id="historyGridViewBtn" onclick="toggleHistoryView('grid')">
+                                                    <i class="fas fa-th"></i>
+                                                </button>
+                                                <button type="button" class="btn btn-outline-primary" id="historyListViewBtn" onclick="toggleHistoryView('list')">
+                                                    <i class="fas fa-list"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <button class="btn btn-outline-danger btn-sm" onclick="clearHistory()">
+                                        <i class="fas fa-trash me-1"></i> Hapus Semua
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    ` : ''}
+
                     <!-- History Content -->
-                    <div class="row">
+                    <div class="row" id="historyContent">
                         ${historyMovies.length === 0 ? `
                             <div class="col-12 text-center py-5">
                                 <i class="fas fa-history fa-3x mb-3 text-muted"></i>
@@ -1762,11 +1956,60 @@
                                 <p class="text-muted">Mulai menonton film untuk mengisi riwayat</p>
                             </div>
                         ` : `
-                            ${historyMovies.map(movie => `
-                                <div class="col-6 col-md-4 col-lg-3 mb-4">
-                                    ${generateMovieCard(movie)}
-                                </div>
-                            `).join('')}
+                            <div id="historyGridView">
+                                ${historyMovies.map(movie => `
+                                    <div class="col-6 col-md-4 col-lg-3 mb-4 history-item" data-movie-id="${movie.id}">
+                                        <div class="movie-card shared-transition" onclick="showMovieDetail(${movie.id})">
+                                            <img src="${movie.poster}" alt="${movie.title}" loading="lazy">
+                                            <div class="movie-overlay">
+                                                <div class="movie-title">${movie.title}</div>
+                                                <div class="movie-meta">
+                                                    <span>${movie.year}</span> •
+                                                    <span><i class="fas fa-star text-warning"></i> ${formatRating(movie.rating)}</span> •
+                                                    <span>${movie.genre[0]}</span>
+                                                </div>
+                                            </div>
+                                            <div class="position-absolute top-0 end-0 m-2">
+                                                <span class="badge bg-success">
+                                                    <i class="fas fa-eye me-1"></i>Ditonton
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                `).join('')}
+                            </div>
+                            <div id="historyListView" style="display: none;">
+                                ${historyMovies.map(movie => `
+                                    <div class="col-12 mb-3 history-item" data-movie-id="${movie.id}">
+                                        <div class="d-flex align-items-center p-3 glass rounded position-relative">
+                                            <img src="${movie.poster}" alt="${movie.title}" class="rounded me-3" style="width: 80px; height: 120px; object-fit: cover;">
+                                            <div class="flex-grow-1">
+                                                <h5 class="mb-1">${movie.title}</h5>
+                                                <p class="mb-1 text-muted">${movie.year} • ${movie.genre.join(', ')} • ${movie.duration}</p>
+                                                <div class="d-flex align-items-center">
+                                                    <span class="badge bg-warning text-dark me-2">
+                                                        <i class="fas fa-star me-1"></i>${formatRating(movie.rating)}
+                                                    </span>
+                                                    <small class="text-muted">${movie.director || 'Unknown'}</small>
+                                                </div>
+                                            </div>
+                                            <div class="d-flex flex-column gap-2">
+                                                <button class="btn btn-primary btn-sm" onclick="playMovie(${movie.id})">
+                                                    <i class="fas fa-play me-1"></i> Putar Lagi
+                                                </button>
+                                                <button class="btn btn-outline-danger btn-sm" onclick="removeFromHistory(${movie.id})">
+                                                    <i class="fas fa-trash me-1"></i> Hapus
+                                                </button>
+                                            </div>
+                                            <div class="position-absolute top-0 end-0 m-2">
+                                                <span class="badge bg-success">
+                                                    <i class="fas fa-eye me-1"></i>Ditonton
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                `).join('')}
+                            </div>
                         `}
                     </div>
                 </div>
@@ -1795,17 +2038,8 @@
 
             return `
                 <div class="container">
-                    <!-- Back Button -->
-                    <div class="row mb-4">
-                        <div class="col">
-                            <button class="back-button">
-                                <i class="fas fa-arrow-left"></i>
-                            </button>
-                        </div>
-                    </div>
-
                     <!-- Profile Header -->
-                    <div class="row mb-5">
+                    <div class="row mb-5 mt-3">
                         <div class="col-12 col-md-8 mx-auto">
                             <div class="d-flex flex-column align-items-center">
                                 <div class="position-relative mb-3">
@@ -1956,15 +2190,6 @@
             
             return `
                 <div class="container">
-                    <!-- Back Button -->
-                    <div class="row mb-4">
-                        <div class="col">
-                            <button class="back-button">
-                                <i class="fas fa-arrow-left"></i>
-                            </button>
-                        </div>
-                    </div>
-                    
                     <!-- Movie Detail -->
                     <div class="row mb-5">
                         <div class="col-12 col-md-4 mb-4 mb-md-0">
@@ -2478,7 +2703,313 @@
                 this.remove();
             });
         }
-        
+
+        // ==================== FUNGSI WATCHLIST MANAGEMENT ====================
+        // Fungsi untuk update watchlist view (sorting dan filtering)
+        function updateWatchlistView() {
+            const session = getSession();
+            const users = getUsers();
+            const user = users.find(u => u.id === session.userId);
+            const watchlist = user ? user.watchlist : [];
+
+            // Ambil film dari watchlist
+            let watchlistMovies = movies.filter(movie => watchlist.includes(movie.id));
+
+            // Apply sorting
+            const sortValue = document.getElementById('watchlistSort').value;
+            watchlistMovies.sort((a, b) => {
+                switch(sortValue) {
+                    case 'title-asc':
+                        return a.title.localeCompare(b.title);
+                    case 'title-desc':
+                        return b.title.localeCompare(a.title);
+                    case 'year-desc':
+                        return b.year - a.year;
+                    case 'year-asc':
+                        return a.year - b.year;
+                    case 'rating-desc':
+                        return b.rating - a.rating;
+                    case 'rating-asc':
+                        return a.rating - b.rating;
+                    default:
+                        return a.title.localeCompare(b.title);
+                }
+            });
+
+            // Apply filtering
+            const genreValue = document.getElementById('watchlistGenreFilter').value;
+            if (genreValue) {
+                watchlistMovies = watchlistMovies.filter(movie => movie.genre.includes(genreValue));
+            }
+
+            // Update grid view
+            const gridView = document.getElementById('watchlistGridView');
+            if (gridView) {
+                gridView.innerHTML = watchlistMovies.map(movie => `
+                    <div class="col-6 col-md-4 col-lg-3 mb-4 watchlist-item" data-movie-id="${movie.id}">
+                        ${generateMovieCard(movie)}
+                    </div>
+                `).join('');
+            }
+
+            // Update list view
+            const listView = document.getElementById('watchlistListView');
+            if (listView) {
+                listView.innerHTML = watchlistMovies.map(movie => `
+                    <div class="col-12 mb-3 watchlist-item" data-movie-id="${movie.id}">
+                        <div class="d-flex align-items-center p-3 glass rounded">
+                            <img src="${movie.poster}" alt="${movie.title}" class="rounded me-3" style="width: 80px; height: 120px; object-fit: cover;">
+                            <div class="flex-grow-1">
+                                <h5 class="mb-1">${movie.title}</h5>
+                                <p class="mb-1 text-muted">${movie.year} • ${movie.genre.join(', ')} • ${movie.duration}</p>
+                                <div class="d-flex align-items-center">
+                                    <span class="badge bg-warning text-dark me-2">
+                                        <i class="fas fa-star me-1"></i>${formatRating(movie.rating)}
+                                    </span>
+                                    <small class="text-muted">${movie.director || 'Unknown'}</small>
+                                </div>
+                            </div>
+                            <div class="d-flex flex-column gap-2">
+                                <button class="btn btn-primary btn-sm" onclick="playMovie(${movie.id})">
+                                    <i class="fas fa-play me-1"></i> Putar
+                                </button>
+                                <button class="btn btn-outline-danger btn-sm" onclick="removeFromWatchlist(${movie.id})">
+                                    <i class="fas fa-trash me-1"></i> Hapus
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                `).join('');
+            }
+        }
+
+        // Fungsi untuk toggle view (grid/list)
+        function toggleView(viewType) {
+            const gridView = document.getElementById('watchlistGridView');
+            const listView = document.getElementById('watchlistListView');
+            const gridBtn = document.getElementById('gridViewBtn');
+            const listBtn = document.getElementById('listViewBtn');
+
+            if (viewType === 'grid') {
+                gridView.style.display = '';
+                listView.style.display = 'none';
+                gridBtn.classList.add('active');
+                listBtn.classList.remove('active');
+            } else {
+                gridView.style.display = 'none';
+                listView.style.display = '';
+                gridBtn.classList.remove('active');
+                listBtn.classList.add('active');
+            }
+        }
+
+        // Fungsi untuk menghapus film dari watchlist
+        function removeFromWatchlist(movieId) {
+            if (!confirm('Apakah Anda yakin ingin menghapus film ini dari watchlist?')) {
+                return;
+            }
+
+            const session = getSession();
+            const users = getUsers();
+            const userIndex = users.findIndex(u => u.id === session.userId);
+
+            if (userIndex === -1) return;
+
+            // Hapus dari watchlist
+            users[userIndex].watchlist = users[userIndex].watchlist.filter(id => id !== movieId);
+            saveUsers(users);
+
+            // Hapus elemen dari DOM
+            const item = document.querySelector(`[data-movie-id="${movieId}"]`);
+            if (item) {
+                item.remove();
+            }
+
+            // Update statistik di profile jika sedang di halaman profile
+            if (currentPage === 'profile') {
+                loadPage('profile');
+            }
+
+            alert('Film berhasil dihapus dari watchlist!');
+        }
+
+        // ==================== FUNGSI HISTORY MANAGEMENT ====================
+        // Fungsi untuk update history view (sorting dan filtering)
+        function updateHistoryView() {
+            const session = getSession();
+            const users = getUsers();
+            const user = users.find(u => u.id === session.userId);
+            const history = user ? user.history : [];
+
+            // Ambil film dari history
+            let historyMovies = movies.filter(movie => history.includes(movie.id));
+
+            // Apply sorting
+            const sortValue = document.getElementById('historySort').value;
+            historyMovies.sort((a, b) => {
+                switch(sortValue) {
+                    case 'recent':
+                        // Default: recent first (reverse the array)
+                        return history.indexOf(b.id) - history.indexOf(a.id);
+                    case 'oldest':
+                        // Oldest first
+                        return history.indexOf(a.id) - history.indexOf(b.id);
+                    case 'title-asc':
+                        return a.title.localeCompare(b.title);
+                    case 'title-desc':
+                        return b.title.localeCompare(a.title);
+                    case 'year-desc':
+                        return b.year - a.year;
+                    case 'year-asc':
+                        return a.year - b.year;
+                    case 'rating-desc':
+                        return b.rating - a.rating;
+                    case 'rating-asc':
+                        return a.rating - b.rating;
+                    default:
+                        return history.indexOf(b.id) - history.indexOf(a.id);
+                }
+            });
+
+            // Apply filtering
+            const genreValue = document.getElementById('historyGenreFilter').value;
+            if (genreValue) {
+                historyMovies = historyMovies.filter(movie => movie.genre.includes(genreValue));
+            }
+
+            // Update grid view
+            const gridView = document.getElementById('historyGridView');
+            if (gridView) {
+                gridView.innerHTML = historyMovies.map(movie => `
+                    <div class="col-6 col-md-4 col-lg-3 mb-4 history-item" data-movie-id="${movie.id}">
+                        <div class="movie-card shared-transition" onclick="showMovieDetail(${movie.id})">
+                            <img src="${movie.poster}" alt="${movie.title}" loading="lazy">
+                            <div class="movie-overlay">
+                                <div class="movie-title">${movie.title}</div>
+                                <div class="movie-meta">
+                                    <span>${movie.year}</span> •
+                                    <span><i class="fas fa-star text-warning"></i> ${formatRating(movie.rating)}</span> •
+                                    <span>${movie.genre[0]}</span>
+                                </div>
+                            </div>
+                            <div class="position-absolute top-0 end-0 m-2">
+                                <span class="badge bg-success">
+                                    <i class="fas fa-eye me-1"></i>Ditonton
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                `).join('');
+            }
+
+            // Update list view
+            const listView = document.getElementById('historyListView');
+            if (listView) {
+                listView.innerHTML = historyMovies.map(movie => `
+                    <div class="col-12 mb-3 history-item" data-movie-id="${movie.id}">
+                        <div class="d-flex align-items-center p-3 glass rounded position-relative">
+                            <img src="${movie.poster}" alt="${movie.title}" class="rounded me-3" style="width: 80px; height: 120px; object-fit: cover;">
+                            <div class="flex-grow-1">
+                                <h5 class="mb-1">${movie.title}</h5>
+                                <p class="mb-1 text-muted">${movie.year} • ${movie.genre.join(', ')} • ${movie.duration}</p>
+                                <div class="d-flex align-items-center">
+                                    <span class="badge bg-warning text-dark me-2">
+                                        <i class="fas fa-star me-1"></i>${formatRating(movie.rating)}
+                                    </span>
+                                    <small class="text-muted">${movie.director || 'Unknown'}</small>
+                                </div>
+                            </div>
+                            <div class="d-flex flex-column gap-2">
+                                <button class="btn btn-primary btn-sm" onclick="playMovie(${movie.id})">
+                                    <i class="fas fa-play me-1"></i> Putar Lagi
+                                </button>
+                                <button class="btn btn-outline-danger btn-sm" onclick="removeFromHistory(${movie.id})">
+                                    <i class="fas fa-trash me-1"></i> Hapus
+                                </button>
+                            </div>
+                            <div class="position-absolute top-0 end-0 m-2">
+                                <span class="badge bg-success">
+                                    <i class="fas fa-eye me-1"></i>Ditonton
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                `).join('');
+            }
+        }
+
+        // Fungsi untuk toggle view (grid/list) untuk history
+        function toggleHistoryView(viewType) {
+            const gridView = document.getElementById('historyGridView');
+            const listView = document.getElementById('historyListView');
+            const gridBtn = document.getElementById('historyGridViewBtn');
+            const listBtn = document.getElementById('historyListViewBtn');
+
+            if (viewType === 'grid') {
+                gridView.style.display = '';
+                listView.style.display = 'none';
+                gridBtn.classList.add('active');
+                listBtn.classList.remove('active');
+            } else {
+                gridView.style.display = 'none';
+                listView.style.display = '';
+                gridBtn.classList.remove('active');
+                listBtn.classList.add('active');
+            }
+        }
+
+        // Fungsi untuk clear history
+        function clearHistory() {
+            if (!confirm('Apakah Anda yakin ingin menghapus semua riwayat tontonan? Tindakan ini tidak dapat dibatalkan.')) {
+                return;
+            }
+
+            const session = getSession();
+            const users = getUsers();
+            const userIndex = users.findIndex(u => u.id === session.userId);
+
+            if (userIndex === -1) return;
+
+            // Clear history
+            users[userIndex].history = [];
+            saveUsers(users);
+
+            // Reload halaman history
+            loadPage('history');
+
+            alert('Riwayat tontonan berhasil dihapus!');
+        }
+
+        // Fungsi untuk menghapus film dari history
+        function removeFromHistory(movieId) {
+            if (!confirm('Apakah Anda yakin ingin menghapus film ini dari riwayat?')) {
+                return;
+            }
+
+            const session = getSession();
+            const users = getUsers();
+            const userIndex = users.findIndex(u => u.id === session.userId);
+
+            if (userIndex === -1) return;
+
+            // Hapus dari history
+            users[userIndex].history = users[userIndex].history.filter(id => id !== movieId);
+            saveUsers(users);
+
+            // Hapus elemen dari DOM
+            const item = document.querySelector(`[data-movie-id="${movieId}"]`);
+            if (item) {
+                item.remove();
+            }
+
+            // Update statistik di profile jika sedang di halaman profile
+            if (currentPage === 'profile') {
+                loadPage('profile');
+            }
+
+            alert('Film berhasil dihapus dari riwayat!');
+        }
+
         // ==================== EVENT LISTENERS ====================
         document.addEventListener('DOMContentLoaded', function() {
             // Inisialisasi aplikasi
@@ -2630,6 +3161,8 @@
             
             // Cek apakah user sudah login
             if (isLoggedIn()) {
+                // Update mobile profile image
+                updateMobileProfileImage();
                 // Auto load home page
                 loadPage('home');
             } else {
