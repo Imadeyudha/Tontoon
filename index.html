@@ -3,6 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-title" content="TONTOON">
     <title>TONTOON - Streaming Film Terlengkap</title>
     
     <!-- Manifest PWA -->
@@ -174,7 +176,7 @@
         /* Carousel Trending */
         .carousel-trending {
             height: 450px;
-            border-radius: 16px;
+            border-radius: 32px;
             overflow: hidden;
             margin-bottom: 2rem;
             position: relative;
@@ -1173,9 +1175,8 @@
                     <div class="movie-overlay">
                         <div class="movie-title">${movie.title}</div>
                         <div class="movie-meta">
-                            <span>${movie.year}</span> • 
-                            <span><i class="fas fa-star text-warning"></i> ${formatRating(movie.rating)}</span> • 
-                            <span>${movie.genre[0]}</span>
+                            <span>${movie.year}</span> •
+                            <span><i class="fas fa-star text-warning"></i> ${formatRating(movie.rating)}</span>
                         </div>
                     </div>
                 </div>
