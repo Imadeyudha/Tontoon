@@ -609,7 +609,9 @@
                     TONTOON
                 </a>
 
-
+                <button class="btn btn-link nav-link d-lg-none ms-2" id="mobileProfileBtn" onclick="loadPage('profile')" style="display: none;">
+                    <img id="mobileProfileImg" src="https://via.placeholder.com/30x30/7A1CAC/FFFFFF?text=U" alt="Profile" class="rounded-circle" style="width: 30px; height: 30px;">
+                </button>
 
                 <div class="navbar-nav d-none d-lg-flex" id="navbarNav">
                     <ul class="navbar-nav ms-auto">
@@ -624,6 +626,9 @@
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="#" onclick="loadPage('history')"><i class="fas fa-history me-1"></i> History</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#" onclick="loadPage('profile')"><i class="fas fa-user me-1"></i> Profile</a>
                         </li>
 
                         <li class="nav-item">
@@ -661,8 +666,10 @@
                 <i class="fas fa-bookmark"></i>
                 <span>Watchlist</span>
             </a>
-
-
+            <a href="#" class="bottom-nav-item" onclick="loadPage('profile'); setActiveNav(this)">
+                <i class="fas fa-user"></i>
+                <span>Profile</span>
+            </a>
         </div>
     </div>
     
@@ -3250,4 +3257,3 @@
     </script>
 </body>
 </html>
-
